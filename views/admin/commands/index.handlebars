@@ -1,0 +1,22 @@
+<div class="form-control btn btn-outline-info text-center">Comandos</div>
+{{#each commands}}
+
+
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5>{{{title}}}</h5>
+    </div>
+    <div class="card-body">
+        <h5>{{{body}}}</h5>
+    </div>
+    <div class="card-footer text-center btn-group ">
+        <button class="btn btn-outline-warning ">Editar</button>
+        <button class="btn btn-outline-danger ">Excluir</button>
+    </div>
+</div>
+
+{{else}}
+<div class="form-control btn btn-danger text-center">Nenhum Comando Encontrado</div>
+
+{{/each}}
