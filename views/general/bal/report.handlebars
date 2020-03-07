@@ -1,0 +1,25 @@
+{{#each bal}}
+<table class="table table-bordered table-dark">
+  <thead>
+    <tr>
+      <th scope="col">{{date}}</th>
+      <th scope="col">{{user}}</th>
+      <th scope="col">{{period}}</th>
+      <th scope="col"{{#if bal10 }}style="background:green"{{else}}{{/if}}>Bal 10</th>
+      <th scope="col"{{#if bal11 }}style="background:green"{{else}}{{/if}}>Bal 11</th>
+      <th scope="col"{{#if bal12 }}style="background:green"{{else}}{{/if}}>Bal 12</th>
+      <th scope="col"{{#if bal13 }}style="background:green"{{else}}{{/if}}>Bal 13</th>
+      <th scope="col"{{#if bal14 }}style="background:green"{{else}}{{/if}}>Bal 14</th>
+      <th scope="col"{{#if bal15 }}style="background:green"{{else}}{{/if}}>Bal 15</th>
+      <th scope="col"{{#if bal16 }}style="background:green"{{else}}{{/if}}>Bal 16</th>
+      <th scope="col"{{#if bal17 }}style="background:green"{{else}}{{/if}}>Bal 17</th>
+      <th scope="col"{{#if bal18 }}style="background:green"{{else}}{{/if}}>Bal 18</th>
+      <th scope="col"{{#if bal19 }}style="background:green"{{else}}{{/if}}>Bal 19</th>
+      <th scope="col"{{#if bal20 }}style="background:green"{{else}}{{/if}}>Bal 20</th>
+    </tr>
+  </thead>
+</table>
+
+{{else}}
+<div class="form-control btn btn-danger text-center">Nenhum Aferição Encontrada</div>
+{{/each}}
