@@ -4,6 +4,15 @@ const mongoose = require("mongoose");
 const ValidationContract = require("../Helpers/validators");
 require("../Models/Balance");
 const Balance = mongoose.model("balances");
+//const { zonedTimeToUtc } = require("date-fns-tz");
+const pt = require("date-fns/locale/pt");
+
+const {
+  parseISO,
+  format,
+  formatRelative,
+  formatDistance
+} = require("date-fns");
 
 router.get("/", (req, res) => {
   res.render("general/index");
@@ -18,10 +27,12 @@ router.get("/bal", (req, res) => {
 });
 
 router.post("/bal/create", (req, res) => {
-  console.log(req.body.date);
+  const firstDate = parseISO(req.body.date);
+  // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
+  const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
 
   const bal = {
-    date: req.body.date,
+    date: formattedDate,
     user: req.body.users,
     period: req.body.period,
     bal10: req.body.bal10,
@@ -64,4 +75,23 @@ router.get("/bal/report", (req, res) => {
   });
 });
 
+router.get("/bal/delete/:id", (req, res) => {
+  const id = req.params.id;
+  Balance.findOneAndRemove({ _id: id })
+    .then(() => {
+      console.log("Deletado com Sucesso");
+      res.redirect("/bal/report");
+    })
+    .catch(error => {
+      alert("erro ao deletar" + error);
+    });
+});
+
+router.get("/bal/edit/:id", (req, res) => {
+  const id = req.params.id;
+  Balance.findById({ _id: id }).then(balance => {
+    console.log(balance.date);
+    res.render("general/bal/edit", { balance });
+  });
+});
 module.exports = router;

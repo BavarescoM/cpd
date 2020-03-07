@@ -8,9 +8,14 @@
   <tbody class="text-center">
     <tr > 
         <th scope="col">
-        <input class="form-control" type="date" name="date" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}">
-        <select class="custom-select mt-4" name="users">
-                <option selected value="0">Selecione um Operador</option>
+                <p>{{balance.date}}</p>
+                <input type="text" value="{{balance.date}}">
+                
+
+
+        <input class="form-control" type="date" name="date" required value="{{balance.date}}">
+        <select  class="custom-select mt-4" name="users" value="{{balance.user}}">
+                <option  selected value="0">Selecione um Operador</option>
                 <option value="Anderson">Anderson</option>
                 <option value="Daniel">Daniel</option>
                 <option value="Johnny">Johnny</option>
@@ -24,7 +29,7 @@
         </th>
               <td class="mt-4">
                       <div class="mt-5">Bal 10</div>
-                      <input name="bal10" type='checkbox' class="form-control">
+                      <input value="{{balance.bal10}}" name="bal10" type='checkbox' class="form-control">
               </td>
                 <td>
                       <div class="mt-5">
