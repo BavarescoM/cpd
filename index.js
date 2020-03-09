@@ -6,31 +6,30 @@ const mongoose = require("mongoose");
 const handlebars = require("express-handlebars");
 var app = express();
 const router = express.Router();
-var flash = require("connect-flash");
 const session = require("express-session");
 var cookieParser = require("cookie-parser");
+var flash = require("connect-flash");
 
 const db = require("./Config/db");
 const general = require("./Routes/general");
 const commands = require("./Routes/commands");
 
-app.use(
-  session({
-    secret: "root",
-    resave: true,
-    saveUninitialized: true
-  })
-);
+app.use(session({
+  secret: "The milk would do that",
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(flash());
-//middleware
 
 app.use((req, res, next) => {
-  res.locals.success_msg = req.flash("success_msg");
-  res.locals.error_msg = req.flash("error_msg");
-  res.locals.error = req.flash("error");
-  res.locals.user = req.user || null;
+  res.locals.message = req.flash();
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
   next();
 });
+
+
+
 
 //body-parser
 app.use(bodyParser.urlencoded({ extended: true }));

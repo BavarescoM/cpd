@@ -19,20 +19,15 @@ router.get("/", (req, res) => {
 });
 
 router.get("/bal", (req, res) => {
-  req.flash("test", "it worked");
+  req.flash("error", "houew")
 
-  req.flash("success", "Logged in");
-  req.flash("success_msg", "bombou");
   res.render("general/bal/index");
 });
 
 router.post("/bal/create", (req, res) => {
-  const firstDate = parseISO(req.body.date);
-  // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
-  const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
 
   const bal = {
-    date: formattedDate,
+    date: req.body.date,
     user: req.body.users,
     period: req.body.period,
     bal10: req.body.bal10,
@@ -49,28 +44,36 @@ router.post("/bal/create", (req, res) => {
   };
 
   let contract = new ValidationContract();
-  contract.isUserRequired(req.body.users, "Usuario é requisitado");
+  contract.isUserRequired(req.body.users, "Operador é requisitado");
   contract.isBalEmpty(bal, "Deve preencher pelo menos um campo de balança");
   if (!contract.isValid()) {
-    console.log(contract.errors());
-    req.flash("error_msg", "erro");
-    res.redirect("/bal");
+    var error = (contract.errors());
+    console.log(error);
+
+    res.render('general/bal/index', { error });
     return;
   } else {
     new Balance(bal)
       .save()
       .then(() => {
         res.redirect("/bal");
+        req.flash("success_msg", "bombou");
         console.log("Dados salvos");
       })
       .catch(error => {
-        console.log("Erro ao salvar", +error);
+        req.flash("error_msg", "Erro ao salvar" + error);
       });
   }
 });
 
 router.get("/bal/report", (req, res) => {
   Balance.find().then(bal => {
+    /*
+    const firstDate = parseISO(bal.date);
+    // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
+    const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
+    */
+    console.log(bal);
     res.render("general/bal/report", { bal });
   });
 });
@@ -90,6 +93,7 @@ router.get("/bal/delete/:id", (req, res) => {
 router.get("/bal/edit/:id", (req, res) => {
   const id = req.params.id;
   Balance.findById({ _id: id }).then(balance => {
+
     console.log(balance.date);
     res.render("general/bal/edit", { balance });
   });

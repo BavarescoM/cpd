@@ -1,104 +1,107 @@
-<form action="/bal/create" method="POST">
-<table class="table table-dark table-bordered table-striped ">
-  <thead class="text-center">
-    <tr>
-      <th colspan="12">Aferição de Balanças </th>
-    </tr>
-  </thead>
-  <tbody class="text-center">
-    <tr > 
-        <th scope="col">
-        <input class="form-control" type="date" name="date" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}">
-        <select class="custom-select mt-4" name="users">
-                <option selected value="0">Selecione um Operador</option>
-                <option value="Anderson">Anderson</option>
-                <option value="Daniel">Daniel</option>
-                <option value="Johnny">Johnny</option>
-                <option value="Maurício">Maurício</option>
-                <option value="Ricardo">Ricardo</option>
-        </select>
-        <select class="custom-select text-center mt-4" name="period">
-            <option value="Manhã">Manhã </option>
-            <option value="Tarde">Tarde</option>
-        </select>
-        </th>
-              <td class="mt-4">
-                      <div class="mt-5">Bal 10</div>
-                      <input name="bal10" type='checkbox' class="form-control">
-              </td>
-                <td>
-                      <div class="mt-5">
-                              Bal 11
-                      </div>
-                      <input name="bal11" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 12
-                      </div>
-                      <input name="bal12" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 13
-                      </div>
-                      <input name="bal13" type='checkbox' class="form-control">
-              </td>
-               <td>
-                    <div class="mt-5">Bal 14</div>
-                      <input name="bal14" type='checkbox' class="form-control">
-              </td>
-              <td>
-                      <div class="mt-5">
-                              Bal 15
-                      </div>
-                      <input name="bal15" type='checkbox' class="form-control">
-              </td>
-                <td>
-                      <div class="mt-5">
-                              Bal 16
-                      </div>
-                      <input name="bal16" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 17
-                      </div>
-                      <input name="bal17" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 18
-                      </div>
-                      <input name="bal18" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 19
-                      </div>
-                      <input name="bal19" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 20
-                      </div>
-                      <input name="bal20"type='checkbox' class="form-control">
-              </td>      
-    </tr>
-      <tr>
-    <th colspan="12" >
-        <button class="btn btn-info btn-lg col-sm-3" >Voltar</button>
-        <button class="btn btn-warning btn-lg col-sm-3" >Editar</button>
-        <button type="submit" class="btn btn-success  btn-lg col-sm-3">Salvar</button>
+{{#each error}}
+<div class="alert alert-danger text-center">{{message}}</div>
+{{else}}
 
-    </th>
-    </tr>
-  </tbody>
-</table>
+{{/each}}
+<form action="/bal/create" method="POST">
+        <table class="table table-dark table-bordered table-striped ">
+                <thead class="text-center">
+                        <tr>
+                                <th colspan="12">Aferição de Balanças </th>
+                        </tr>
+                </thead>
+                <tbody class="text-center">
+                        <tr>
+                                <th scope="col">
+                                        <input class="form-control" type="date" name="date" required>
+                                        <select class="custom-select mt-4" name="users">
+                                                <option selected value="0">Selecione um Operador</option>
+                                                <option value="Anderson">Anderson</option>
+                                                <option value="Daniel">Daniel</option>
+                                                <option value="Johnny">Johnny</option>
+                                                <option value="Maurício">Maurício</option>
+                                                <option value="Ricardo">Ricardo</option>
+                                        </select>
+                                        <select class="custom-select text-center mt-4" name="period">
+                                                <option value="Manhã">Manhã </option>
+                                                <option value="Tarde">Tarde</option>
+                                        </select>
+                                </th>
+                                <td>
+                                        <div class="mt-5">Bal10</div>
+                                        <input name="bal10" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">Bal11 </div>
+                                        <input name="bal11" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 12
+                                        </div>
+                                        <input name="bal12" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 13
+                                        </div>
+                                        <input name="bal13" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">Bal 14</div>
+                                        <input name="bal14" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 15
+                                        </div>
+                                        <input name="bal15" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 16
+                                        </div>
+                                        <input name="bal16" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 17
+                                        </div>
+                                        <input name="bal17" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 18
+                                        </div>
+                                        <input name="bal18" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 19
+                                        </div>
+                                        <input name="bal19" type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 20
+                                        </div>
+                                        <input name="bal20" type='checkbox' class="form-control">
+                                </td>
+                        </tr>
+                        <tr>
+                                <th colspan="12">
+                                        <button class="btn btn-info btn-lg col-sm-3">Voltar</button>
+                                        <button class="btn btn-warning btn-lg col-sm-3">Editar</button>
+                                        <button type="submit" class="btn btn-success  btn-lg col-sm-3">Salvar</button>
+
+                                </th>
+                        </tr>
+                </tbody>
+        </table>
 </form>
 
-<script>              
-        function day(val){
+<script>
+        function day(val) {
                 var day = document.getElementById('day');
                 console.log(val);
         }

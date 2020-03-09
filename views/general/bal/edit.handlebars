@@ -1,109 +1,131 @@
 <form action="/bal/create" method="POST">
-<table class="table table-dark table-bordered table-striped ">
-  <thead class="text-center">
-    <tr>
-      <th colspan="12">Aferição de Balanças </th>
-    </tr>
-  </thead>
-  <tbody class="text-center">
-    <tr > 
-        <th scope="col">
-                <p>{{balance.date}}</p>
-                <input type="text" value="{{balance.date}}">
-                
+        <table class="table table-dark table-bordered table-striped ">
+                <thead class="text-center">
+                        <tr>
+                                <th colspan="12">Aferição de Balanças </th>
+                        </tr>
+                </thead>
+                <tbody class="text-center">
+                        <tr>
+                                <th scope="col">
+                                        <input class="form-control" type="date" name="date" required
+                                                value="{{balance.date}}">
+                                        <select class="form-control mt-4" name="users" value="{{balance.user}}">
+                                                {{#if balance.user}}
+                                                <option class="form-control" selected value="{{balance.user}}">
+                                                        {{balance.user}}
+                                                </option>
+                                                {{else}}
+                                                <option class="form-control" selected value="0">Selecione um Operador
+                                                </option>
+                                                {{/if}}
+                                                <option value="Anderson">Anderson</option>
+                                                <option value="Daniel">Daniel</option>
+                                                <option value="Johnny">Johnny</option>
+                                                <option value="Maurício">Maurício</option>
+                                                <option value="Ricardo">Ricardo</option>
+                                        </select>
+                                        <select class="form-control text-center mt-4" name="period">
+                                                {{#if balance.period}}
+                                                <option class="form-control" selected value="{{balance.period}}">
+                                                        {{balance.period}}
+                                                </option>
+                                                {{else}}
+                                                <option class="form-control" selected value="0">Selecione um Perido
+                                                </option>
+                                                {{/if}}
+                                                <option value="Manhã">Manhã </option>
+                                                <option value="Tarde">Tarde</option>
+                                        </select>
+                                </th>
+                                <td class="mt-4">
+                                        <div class="mt-5">Bal 10</div>
+                                        <input {{#if balance.bal10 }} checked{{else}}{{/if}} name="bal10"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 11
+                                        </div>
+                                        <input {{#if balance.bal11 }} checked{{else}}{{/if}} name="bal11"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 12
+                                        </div>
+                                        <input {{#if balance.bal12 }} checked{{else}}{{/if}} name="bal12"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 13
+                                        </div>
+                                        <input{{#if balance.bal13 }} checked{{else}}{{/if}} name="bal13" type='checkbox'
+                                                class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">Bal 14</div>
+                                        <input {{#if balance.bal14 }} checked{{else}}{{/if}} name="bal14"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 15
+                                        </div>
+                                        <input {{#if balance.bal15 }} checked{{else}}{{/if}} name="bal15"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 16
+                                        </div>
+                                        <input {{#if balance.bal16 }} checked{{else}}{{/if}} name="bal16"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 17
+                                        </div>
+                                        <input {{#if balance.bal17 }} checked{{else}}{{/if}} name="bal17"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 18
+                                        </div>
+                                        <input {{#if balance.bal18 }} checked{{else}}{{/if}} name="bal18"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 19
+                                        </div>
+                                        <input {{#if balance.bal19 }} checked{{else}}{{/if}} name="bal19"
+                                                type='checkbox' class="form-control">
+                                </td>
+                                <td>
+                                        <div class="mt-5">
+                                                Bal 20
+                                        </div>
+                                        <input {{#if balance.bal20 }} checked{{else}}{{/if}} name="bal20"
+                                                type='checkbox' class="form-control">
+                                </td>
+                        </tr>
+                        <tr>
+                                <th colspan="12">
+                                        <button class="btn btn-info btn-lg col-sm-3">Voltar</button>
+                                        <button class="btn btn-warning btn-lg col-sm-3">Editar</button>
+                                        <button type="submit" class="btn btn-success  btn-lg col-sm-3">Salvar</button>
 
-
-        <input class="form-control" type="date" name="date" required value="{{balance.date}}">
-        <select  class="custom-select mt-4" name="users" value="{{balance.user}}">
-                <option  selected value="0">Selecione um Operador</option>
-                <option value="Anderson">Anderson</option>
-                <option value="Daniel">Daniel</option>
-                <option value="Johnny">Johnny</option>
-                <option value="Maurício">Maurício</option>
-                <option value="Ricardo">Ricardo</option>
-        </select>
-        <select class="custom-select text-center mt-4" name="period">
-            <option value="Manhã">Manhã </option>
-            <option value="Tarde">Tarde</option>
-        </select>
-        </th>
-              <td class="mt-4">
-                      <div class="mt-5">Bal 10</div>
-                      <input value="{{balance.bal10}}" name="bal10" type='checkbox' class="form-control">
-              </td>
-                <td>
-                      <div class="mt-5">
-                              Bal 11
-                      </div>
-                      <input name="bal11" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 12
-                      </div>
-                      <input name="bal12" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 13
-                      </div>
-                      <input name="bal13" type='checkbox' class="form-control">
-              </td>
-               <td>
-                    <div class="mt-5">Bal 14</div>
-                      <input name="bal14" type='checkbox' class="form-control">
-              </td>
-              <td>
-                      <div class="mt-5">
-                              Bal 15
-                      </div>
-                      <input name="bal15" type='checkbox' class="form-control">
-              </td>
-                <td>
-                      <div class="mt-5">
-                              Bal 16
-                      </div>
-                      <input name="bal16" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 17
-                      </div>
-                      <input name="bal17" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 18
-                      </div>
-                      <input name="bal18" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 19
-                      </div>
-                      <input name="bal19" type='checkbox' class="form-control">
-              </td>
-               <td>
-                      <div class="mt-5">
-                              Bal 20
-                      </div>
-                      <input name="bal20"type='checkbox' class="form-control">
-              </td>      
-    </tr>
-      <tr>
-    <th colspan="12" >
-        <button class="btn btn-info btn-lg col-sm-3" >Voltar</button>
-        <button class="btn btn-warning btn-lg col-sm-3" >Editar</button>
-        <button type="submit" class="btn btn-success  btn-lg col-sm-3">Salvar</button>
-
-    </th>
-    </tr>
-  </tbody>
-</table>
+                                </th>
+                        </tr>
+                </tbody>
+        </table>
 </form>
 
-<script>              
-        function day(val){
+<script>
+        function day(val) {
                 var day = document.getElementById('day');
                 console.log(val);
         }
