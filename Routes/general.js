@@ -15,17 +15,21 @@ const {
 } = require("date-fns");
 
 router.get("/", (req, res) => {
+
+  req.flash('message', "bombou  ");
+
   var utc = new Date().toJSON().slice(0, 10);
   console.log(utc);
   Balance.find({ date: utc }).then(status => {
     var statusBalA = false;
     var statusBalM = false;
-    if (status[0].period == "tarde" || status[1].period == "tarde") {
-      statusBalA = true;
-    }
-    if (status[0].period == "manha" || status[1].period == "manha") {
-      statusBalM = true;
-    }
+    /*
+     if (status[0].period == "tarde" || status[1].period == "tarde") {
+       statusBalA = true;
+     }
+     if (status[0].period == "manha" || status[1].period == "manha") {
+       statusBalM = true;
+     }*/
     res.render("general/index", {
       statusBalA,
       statusBalM
@@ -61,7 +65,6 @@ router.post("/bal/create", (req, res) => {
   contract.isUserRequired(req.body.period, "Periodo é requisitado");
   contract.isBalEmpty(bal, "Deve preencher pelo menos um campo de balança");
   contract.isPeriodValid(req.body.date, "Já foi feita aferição neste Turno");
-
   if (!contract.isValid()) {
     var error = contract.errors();
     console.log(error);
@@ -72,12 +75,9 @@ router.post("/bal/create", (req, res) => {
     new Balance(bal)
       .save()
       .then(() => {
-        res.redirect("/bal");
-        req.flash("success_msg", "bombou");
-        console.log("Dados salvos");
+        res.render("general/bal/index", { message: 'Aferição Cadastrada com Sucesso' });
       })
       .catch(error => {
-        req.flash("error_msg", "Erro ao salvar" + error);
       });
   }
 });
