@@ -1,12 +1,42 @@
-<div class="card">
-	<div class="card-header">
-		<h2>CPD</h2>
+
+
+<div class="container">
+	<div class="row">
+	<div class="card col mr-2">
+		<div class="card-header">
+			Status Balança 09/03/2020
+		</div>
+		<div class="card-body">
+			<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Manhã</th>
+      <th scope="col">Tarde</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+		  {{#if statusBalA}}
+		  <span class="badge badge-pill badge-success">Manhã OK</span>
+		  {{else}}
+		  <span class="badge badge-pill badge-danger">Falta Fazer a Tarde/Noite</span>
+		  {{/if}}
+	  </td>
+      <td>
+		  {{#if statusBalM}}
+		  <span class="badge badge-pill badge-success">Tarde OK</span>
+		  {{else}}
+		  <span class="badge badge-pill badge-danger">Falta Fazer Aferição da Manhã</span>
+		  {{/if}}
+	  </td>
+	</tr>
+	</tbody>
+	</table>
+
+
+		</div>
 	</div>
-	<div class="card-body">
-		<h2>cHAPECO</h2>
-	</div>
-	<div class="card-footer">
-		QUERO VER
-		<button class="btn btn-success">ok</button>
-	</div>
+	
+</div>
 </div>

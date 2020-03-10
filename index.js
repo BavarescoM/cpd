@@ -62,7 +62,7 @@ app.use(express.static(__dirname + "/public"));
 app.use("/", general);
 app.use("/", commands);
 
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => {
   console.log("servidor rodando");
 });

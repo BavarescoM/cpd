@@ -1,5 +1,8 @@
 "use strict";
 
+const mongoose = require("mongoose");
+require("../Models/Balance");
+const Balance = mongoose.model("balances");
 let errors = [];
 
 function ValidationContract() {
@@ -8,6 +11,21 @@ function ValidationContract() {
 
 ValidationContract.prototype.isUserRequired = (value, message) => {
   if (value == 0) errors.push({ message: message });
+};
+
+ValidationContract.prototype.isPeriodValid = (value, message) => {
+  Balance.find({ date: value }).then(ret => {
+    console.log(ret[0].period);
+    if (
+      ret[0].period == "manha" ||
+      "tarde" ||
+      ret[1].period == "manha" || "tarde"
+    ) {
+      console.log("passou nos erros");
+
+      errors.push({ message: message });
+    }
+  });
 };
 ValidationContract.prototype.isBalEmpty = (value, message) => {
   let count = 0;

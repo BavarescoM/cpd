@@ -1,4 +1,4 @@
-<form action="/bal/create" method="POST">
+<form action="/bal/edit" method="POST">
         <table class="table table-dark table-bordered table-striped ">
                 <thead class="text-center">
                         <tr>
@@ -8,6 +8,7 @@
                 <tbody class="text-center">
                         <tr>
                                 <th scope="col">
+                                        <input type="hidden" name="id" value="{{balance.id}}">
                                         <input class="form-control" type="date" name="date" required
                                                 value="{{balance.date}}">
                                         <select class="form-control mt-4" name="users" value="{{balance.user}}">
