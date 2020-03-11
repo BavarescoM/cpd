@@ -1,0 +1,9 @@
+<div class="container">
+	<div class="form-control btn btn-info text-center">Comandos</div>
+	{{# each commands}}
+	<div class="card">
+		<div class="card-header text-center">{{{title}}} <a href="/admin/commands/list/{{id}}" class="btn btn-success btn-lg ml-5">Ler</a></div>
+	</div>
+	{{else}}
+	{{/each}}
+</div>

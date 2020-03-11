@@ -1,16 +1,35 @@
-<div class="form-control btn btn-outline-info text-center">Comandos</div>
-
-<div class="card mt-4">
-    <div class="card-header">
-        <h5>{{{commands.title}}}</h5>
+<div class="card">
+    <div class="card-header text-center">
+        <h2>Editar Comandos</h2>
     </div>
+    
     <div class="card-body">
-        <h5>{{{commands.body}}}</h5>
-    </div>
-    <div class="card-footer text-center btn-group ">
-        <a href="/admin/commands/index" class="btn btn-info ">Voltar</a>
+        <form action="/admin/commands/edit" method="POST">
+            <input type="hidden" value="{{commands.id}}" name="id">
+            <input value="{{commands.title}}" name="title" type="text" class="mt-4 form-control" placeholder="Título do Comando">
+            
+            <textarea  placeholder="Digite o Comando" name="body" id="body" 
+                class="form-control mt-4"></textarea>
 
-        <a class="btn btn-danger ">Excluir</a>
-        <a class="btn btn-success ">Salvar</a>
+            <button class="btn btn-success mt-4 btn-block" type="submit">Enviar</button>
+        </form>
     </div>
 </div>
+
+<div style="display: none;" id="content">
+    {{{commands.body}}}
+</div>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        language: 'pt_BR',
+        selector: '#body',
+        plugins: [
+            'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
+        ],
+        init_instance_callback: () => {
+            tinymce.get('body').setContent($("#content").html())
+        }
+    })
+</script>

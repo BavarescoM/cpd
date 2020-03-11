@@ -15,24 +15,26 @@ const {
 } = require("date-fns");
 
 router.get("/", (req, res) => {
-
-  req.flash('message', "bombou  ");
-
   var utc = new Date().toJSON().slice(0, 10);
   console.log(utc);
+    const firstDate = parseISO(utc);
+    // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
+    const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
+   
   Balance.find({ date: utc }).then(status => {
     var statusBalA = false;
     var statusBalM = false;
-    /*
-     if (status[0].period == "tarde" || status[1].period == "tarde") {
+    console.log(status[0].period + status[1].period)
+     if (status[0].period == "Tarde" || status[1].period == "Tarde") {
        statusBalA = true;
      }
-     if (status[0].period == "manha" || status[1].period == "manha") {
+     if (status[0].period == "Manhã" || status[1].period == "Manhã") {
        statusBalM = true;
-     }*/
+     }
     res.render("general/index", {
       statusBalA,
-      statusBalM
+      statusBalM,
+      formattedDate
     });
   });
 });
@@ -42,7 +44,7 @@ router.get("/bal", (req, res) => {
   res.render("general/bal/index");
 });
 
-router.post("/bal/create", (req, res) => {
+router.post("/bal/create", async (req, res) => {
   const bal = {
     date: req.body.date,
     user: req.body.users,
@@ -60,15 +62,21 @@ router.post("/bal/create", (req, res) => {
     bal20: req.body.bal20
   };
 
+  let bo;
+  await Balance.findOne({ date: bal.date, period:bal.period }).then(ret => {
+    if (ret != null){
+      bo = 0;
+    }
+  });
   let contract = new ValidationContract();
-  contract.isUserRequired(req.body.users, "Operador é requisitado");
-  contract.isUserRequired(req.body.period, "Periodo é requisitado");
+  contract.isUserRequired(bal.user, "Operador é requisitado");
+  contract.isUserRequired(bal.period, "Periodo é requisitado");
+  contract.isUserRequired(bo, "Já foi feita aferição neste Turno");
   contract.isBalEmpty(bal, "Deve preencher pelo menos um campo de balança");
-  contract.isPeriodValid(req.body.date, "Já foi feita aferição neste Turno");
+  
+
   if (!contract.isValid()) {
     var error = contract.errors();
-    console.log(error);
-
     res.render("general/bal/index", { error });
     return;
   } else {
@@ -76,19 +84,17 @@ router.post("/bal/create", (req, res) => {
       .save()
       .then(() => {
         res.render("general/bal/index", { message: 'Aferição Cadastrada com Sucesso' });
+        
       })
-      .catch(error => {
+      .catch(erro => {
+        console.log('erro ao salvar');
       });
   }
 });
 
 router.get("/bal/report", (req, res) => {
-  Balance.find().then(bal => {
-    /*
-    const firstDate = parseISO(bal.date);
-    // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
-    const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
-    */
+  Balance.find().sort({date: -1}).then(bal => {
+
     res.render("general/bal/report", { bal });
   });
 });
@@ -105,15 +111,37 @@ router.get("/bal/delete/:id", (req, res) => {
     });
 });
 
-router.get("/bal/edit/:id", (req, res) => {
+router.get("/bal/edit/:id?", (req, res) => {
+  var error = req.params.erro;
+  console.log(error, 'eror :id');
   const id = req.params.id;
   Balance.findById({ _id: id }).then(balance => {
-    res.render("general/bal/edit", { balance });
+    res.render("general/bal/edit", { balance, error });
   });
 });
 
-router.post("/bal/edit", (req, res) => {
-  Balance.findOne({ _id: req.body.id })
+router.post("/bal/edit",  async(req, res) => {
+    /*
+    let bo;
+  await Balance.findOne({ date: req.body.date, period:req.body.period }).
+  where(id : req.body.id).then(ret => {
+    if (ret != null){
+      console.log(ret);
+      bo = 0;
+    }
+  });*/
+  let contract = new ValidationContract();
+
+  //contract.isUserRequired(bo, "Já foi feita aferição neste Turno");
+  contract.isBalEmpty(req.body, "Deve preencher pelo menos um campo de balança");
+  
+  if (!contract.isValid()) {
+    var error = contract.errors();
+    var x = JSON.stringify(error);
+    res.redirect(`/bal/edit/${req.body.id}?erro=${x}`);
+    return;
+  } else {
+   Balance.findOne({ _id: req.body.id })
     .then(balance => {
       (balance.date = req.body.date),
         (balance.user = req.body.users),
@@ -133,11 +161,10 @@ router.post("/bal/edit", (req, res) => {
         .save()
         .then(() => {
           console.log(balance);
-          req.flash("success_msg", "Aferição editada com Sucesso");
           res.redirect("/bal/report");
+          console.log('Editado com Sucesso');
         })
         .catch(eror => {
-          req.flash("error_msg", "Houve um erro ao salvar a Aferição");
           res.redirect("/bal/report");
         });
     })
@@ -145,6 +172,8 @@ router.post("/bal/edit", (req, res) => {
       req.flash("error_msg", "Houve um erro ao editar a Aferição");
       res.redirect("/bal/report");
     });
-});
+    }
+  });
+
 
 module.exports = router;

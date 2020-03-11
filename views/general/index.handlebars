@@ -4,7 +4,7 @@
 	<div class="row">
 	<div class="card col mr-2">
 		<div class="card-header">
-			Status Balança 09/03/2020
+			Status Balança {{formattedDate}}
 		</div>
 		<div class="card-body">
 			<table class="table">
@@ -20,14 +20,14 @@
 		  {{#if statusBalA}}
 		  <span class="badge badge-pill badge-success">Manhã OK</span>
 		  {{else}}
-		  <span class="badge badge-pill badge-danger">Falta Fazer a Tarde/Noite</span>
+		  <span class="badge badge-pill badge-danger">Falta Fazer Manhã</span>
 		  {{/if}}
 	  </td>
       <td>
 		  {{#if statusBalM}}
 		  <span class="badge badge-pill badge-success">Tarde OK</span>
 		  {{else}}
-		  <span class="badge badge-pill badge-danger">Falta Fazer Aferição da Manhã</span>
+		  <span class="badge badge-pill badge-danger">Falta Fazer Aferição da Tarde/Noite</span>
 		  {{/if}}
 	  </td>
 	</tr>

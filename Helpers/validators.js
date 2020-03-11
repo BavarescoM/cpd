@@ -13,20 +13,6 @@ ValidationContract.prototype.isUserRequired = (value, message) => {
   if (value == 0) errors.push({ message: message });
 };
 
-ValidationContract.prototype.isPeriodValid = (value, message) => {
-  Balance.find({ date: value }).then(ret => {
-    console.log(ret[0].period);
-    if (
-      ret[0].period == "manha" ||
-      "tarde" ||
-      ret[1].period == "manha" || "tarde"
-    ) {
-      console.log("passou nos erros");
-
-      errors.push({ message: message });
-    }
-  });
-};
 ValidationContract.prototype.isBalEmpty = (value, message) => {
   let count = 0;
   if (value.bal10 == undefined) {
@@ -78,7 +64,8 @@ ValidationContract.prototype.clear = () => {
 };
 
 ValidationContract.prototype.isValid = () => {
-  return errors.length == 0;
+  console.log(errors.length);
+  return errors.length === 0;
 };
 
 module.exports = ValidationContract;

@@ -14,7 +14,7 @@ const db = require("./Config/db");
 const general = require("./Routes/general");
 const commands = require("./Routes/commands");
 
-
+/*
 app.use(session({
   secret: 'happy dog', cookie: { maxAge: 30000000 },
   saveUninitialized: true,
@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 app.use(flash());
-/*
+
 app.use((req, res, next) => {
   res.locals.message = req.flash('success_msg');
   res.locals.success_msg = req.flash('success_msg');
