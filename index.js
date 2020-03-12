@@ -6,30 +6,33 @@ const mongoose = require("mongoose");
 const handlebars = require("express-handlebars");
 var app = express();
 const router = express.Router();
-const session = require("express-session");
+
 var cookieParser = require("cookie-parser");
-var flash = require("connect-flash");
 
 const db = require("./Config/db");
 const general = require("./Routes/general");
 const commands = require("./Routes/commands");
 
-/*
-app.use(session({
-  secret: 'happy dog', cookie: { maxAge: 30000000 },
-  saveUninitialized: true,
-  resave: true
-}));
+const session = require("express-session");
+const flash = require("connect-flash");
 
+app.use(cookieParser("secret"));
+
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+  })
+);
 app.use(flash());
-
+//middleware
 app.use((req, res, next) => {
-  res.locals.message = req.flash('success_msg');
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_form = req.flash("error_form");
+  res.locals.error_msg = req.flash("error_msg");
   next();
 });
-*/
 
 //body-parser
 app.use(bodyParser.urlencoded({ extended: true }));

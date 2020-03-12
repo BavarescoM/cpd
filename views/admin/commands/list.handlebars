@@ -1,8 +1,16 @@
 <div class="container">
+	<form action="" method="POST" class="d-flex justify-content-between mb-4">
+		<input placeholder="Pesquisar" type="search" name="search" class="form-control w-50 "><button type="submit" class="btn btn-primary w-25 float-sm-rigth">Pesquisar</button>
+	</form>
 	<div class="form-control btn btn-info text-center">Comandos</div>
 	{{# each commands}}
-	<div class="card">
-		<div class="card-header text-center">{{{title}}} <a href="/admin/commands/list/{{id}}" class="btn btn-success btn-lg ml-5">Ler</a></div>
+	<div class="card mt-2">
+		<div class="card-header row">
+			<a href="/admin/commands/list/{{id}}" class="btn btn-success btn-lg ">Ler</a>
+			<div  class="text-center w-75 mr"><strong>{{{title}}} </strong></div>	
+			
+			
+			</div>
 	</div>
 	{{else}}
 	{{/each}}

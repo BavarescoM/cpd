@@ -17,10 +17,11 @@ router.post("/admin/commands/save", (req, res) => {
     .save()
     .then(() => {
       console.log("Comando Salvo com Sucesso");
+      req.flash("success_msg", "Comando criado com Sucesso!");
       res.redirect("/admin/commands/create");
     })
     .catch(error => {
-      console.log("Erro ao salvar Comando" + error);
+      req.flash("error_msg", "Erro ao salvar Comando" + error);
     });
 });
 
@@ -37,22 +38,24 @@ router.get("/admin/commands/edit/:id", (req, res) => {
   });
 });
 
-router.post('/admin/commands/edit', (req,res) => {
-    var id = req.body.id;
-    console.log(id);
-    Command.findById({_id: id}).then((commands)=> {
-      console.log(commands);
-      console.log(req.body.title);
+router.post("/admin/commands/edit", (req, res) => {
+  var id = req.body.id;
+  console.log(id);
+  Command.findById({ _id: id }).then(commands => {
+    console.log(commands);
+    console.log(req.body.title);
 
-      (commands.title = req.body.title),
-      (commands.body = req.body.body);
-      commands.save().then(()=> {
-        res.redirect('/admin/commands/index');
-        console.log('comando atualizado'+commands);
-      }).catch(error => {
-        console.log('erro ao salvar');
+    (commands.title = req.body.title), (commands.body = req.body.body);
+    commands
+      .save()
+      .then(() => {
+        res.redirect("/admin/commands/index");
+        console.log("comando atualizado" + commands);
+      })
+      .catch(error => {
+        console.log("erro ao salvar");
       });
-    });
+  });
 });
 
 router.get("/admin/commands/delete/:id", (req, res) => {
@@ -73,10 +76,15 @@ router.get("/admin/commands/list", (req, res) => {
   });
 });
 
-
 router.get("/admin/commands/list/:id", (req, res) => {
-  Command.findOne({_id:req.params.id}).then(commands => {
+  Command.findOne({ _id: req.params.id }).then(commands => {
     res.render("admin/commands/list-details", { commands });
   });
 });
+
+/*
+router.get("/admin/commands/searc-list", (req,res) => {
+
+});
+*/
 module.exports = router;
