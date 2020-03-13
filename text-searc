@@ -1,0 +1,19 @@
+mongod --dbpath=/data
+mongo
+show dbs 
+https://docs.mongodb.com/manual/reference/operator/query/text/index.html
+db.articles.createIndex( { subject: "text" } )
+----
+
+stores.find({
+    storeName:
+    $regex: new RegExp(q)
+    }
+},
+})
+_id:0,
+_v:0
+},function(err,data){
+    res.json(data);
+}).limit(10);
+});
