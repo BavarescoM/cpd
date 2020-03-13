@@ -18,13 +18,25 @@
   </thead>
 
   <tbody>
+
+    <div class="container w-100 bg-light mb-4">
+      <form action="">
+        <select class="custom-select w-50">
+          <option value="">mes</option>
+
+        </select>
+        <button class="btn btn-primary btn-lg">Buscar</button>
+        <button class="btn btn-success btn-lg">Gerar Excel</button>
+        <button class="btn btn-danger btn-lg">Gerar Pdf</button>
+      </form>
+    </div>
     {{#each bal}}
     <tr>
       <td scope="col">
         <input class="form-control text-light bg-dark text-center" type="date" disabled value="{{date}}">
       </td>
       <td scope="col">{{user}}</td>
-      <td scope="col">{{period}}</td>      
+      <td scope="col">{{period}}</td>
       <td scope="col" {{#if bal10 }}style="background:green" {{else}}{{/if}}>Bal10</td>
       <td scope="col" {{#if bal11 }}style="background:green" {{else}}{{/if}}>Bal11</td>
       <td scope="col" {{#if bal12 }}style="background:green" {{else}}{{/if}}>Bal12</td>

@@ -30,11 +30,16 @@ router.get("/", (req, res) => {
         statusBalM = true;
       }
     } else {
-      if (status[0].period == "Tarde" || status[1].period == "Tarde") {
-        statusBalA = true;
+      if (status.length == 0) {
+        statusBalA = false; statusBalM = false
       }
-      if (status[0].period == "Manhã" || status[1].period == "Manhã") {
-        statusBalM = true;
+      else {
+        if (status[0].period == "Tarde" || status[1].period == "Tarde") {
+          statusBalA = true;
+        }
+        if (status[0].period == "Manhã" || status[1].period == "Manhã") {
+          statusBalM = true;
+        }
       }
     }
     res.render("general/index", {
@@ -108,11 +113,11 @@ router.get("/bal/delete/:id", (req, res) => {
   const id = req.params.id;
   Balance.findOneAndRemove({ _id: id })
     .then(() => {
-      console.log("Deletado com Sucesso");
+      req.flash('success_msg', 'Deletado com Sucesso');
       res.redirect("/bal/report");
     })
     .catch(error => {
-      alert("erro ao deletar" + error);
+      req.flash('msg_error', "Erro ao Deletar" + error);
     });
 });
 

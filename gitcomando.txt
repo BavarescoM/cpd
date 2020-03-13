@@ -1,0 +1,21 @@
+git log
+git show 
+git status
+
+
+git branch teste //cria 
+git checkout teste //troca
+git merge teste //junta
+git branch -D teste //deleta
+
+git config credential.helper store
+--------------------
+voltar cagada
+git log //lista branch
+git checkout [nome da branch certa] -- [arquivo que quer voltar]
+
+------------------------------------
+voltar arquivo deletado
+git checkout -- [arquivo que quer voltar]
+----------
+git pull atualiza o local
