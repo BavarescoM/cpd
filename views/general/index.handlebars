@@ -14,17 +14,13 @@
 			{{else}}
 			<div class="alert alert-danger">Falta Fazer Aferição da Tarde/Noite</div>
 			{{/if}}
-
 		</div>
-
-
 	</div>
-
 </div>
    
 	<div class="top-section ml-2 mr-2 mb-4">
 		<p class="name text-center">Ata ONLINE {{formattedDate}}</p>
-		{{#each arrD}}
+		{{#each arrD.info}}
 		<div class="bottom-section">
 			<div class="card mb-2">
 				<div class="card-body">
@@ -35,7 +31,10 @@
 			{{else}}
 			{{/each}}
 			<br>
-			<button class=" btn btn-primary ml-2"> Anterior</button>
-			<button  class="d-flex btn btn-primary float-right mr-2" >Proximo</button>
+			<a class=" btn btn-primary ml-2"> Anterior</a>
+			{{#if next}}
+			<a href="/?page={{prox}}" class="d-flex btn btn-primary float-right mr-2">Proximo</a>
+			{{else}}
+			{{/if}}
 	</div>
 	

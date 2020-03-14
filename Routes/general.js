@@ -49,21 +49,43 @@ router.get("/", (req, res) => {
     Protocol.paginate({}, { page, limit: 4 })
       .then(protocol => {
         var arrD = [];
-        var DateP = protocol.docs.map(function (datep) {
+        var arrC = [];
+        var DateP = protocol.docs.map(function(datep) {
           var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
           const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
           var dat = format(znDate, "dd'/'MM'/'yyyy'");
-          arrD.push({
+          arrC.push({
             dat: dat,
             user: datep.user,
             body: datep.body,
             id: datep._id
           });
-
         });
-        arrD.push({ total: protocol.total, limit: protocol.limit, page: protocol.page, pages: protocol.pages })
-        console.log(arrD);
+        arrD.info = arrC.slice();
+        arrD.push({
+          total: protocol.total,
+          limit: protocol.limit,
+          page: protocol.page,
+          pages: protocol.pages
+        });
+        var prox = parseInt(req.query.page) + 1;
+        if (parseInt(req.query) == NaN) {
+          prox = 1;
+        }
+
+        var next;
+        if (parseInt(req.query.page) != parseInt(protocol.pages)) {
+          next = true;
+        } else {
+          next = false;
+        }
+        //console.log(next);
+        //console.log(req.query.page);
+        //console.log(protocol.pages);
+        console.log(prox);
         res.render("general/index", {
+          prox,
+          next,
           arrD,
           statusBalA,
           statusBalM,
@@ -171,33 +193,34 @@ router.get("/excel", (req, res) => {
     for (var index = 0; index < bal.length; index++) {
       var row1 =
         bal[index].date +
-          "\t" +
-          bal[index].user +
-          "\t" +
-          bal[index].period +
-          "\t" +
-          bal[index].bal10 ? "ok" : "" +
-            "\t" +
-            bal[index].bal11 ? "ok" : "" +
-              "\t" +
-              bal[index].bal12 ? "ok" : "" +
-                "\t" +
-                bal[index].bal13 ? "ok" : "" +
-                  "\t" +
-                  bal[index].bal14 ? "ok" : "" +
-                    "\t" +
-                    bal[index].bal15 ? "ok" : "" +
-                      "\t" +
-                      bal[index].bal16 ? "ok" : "" +
-                        "\t" +
-                        bal[index].bal17 ? "ok" : "" +
-                          "\t" +
-                          bal[index].bal18 ? "ok" : "" +
-                            "\t" +
-                            bal[index].bal19 ? "ok" : "" +
-                              "\t" +
-                              bal[index].bal20 ? "ok" : "" +
-                              "\n";
+        "\t" +
+        bal[index].user +
+        "\t" +
+        bal[index].period +
+        "\t" +
+        bal[index].bal10
+          ? "ok"
+          : "" + "\t" + bal[index].bal11
+          ? "ok"
+          : "" + "\t" + bal[index].bal12
+          ? "ok"
+          : "" + "\t" + bal[index].bal13
+          ? "ok"
+          : "" + "\t" + bal[index].bal14
+          ? "ok"
+          : "" + "\t" + bal[index].bal15
+          ? "ok"
+          : "" + "\t" + bal[index].bal16
+          ? "ok"
+          : "" + "\t" + bal[index].bal17
+          ? "ok"
+          : "" + "\t" + bal[index].bal18
+          ? "ok"
+          : "" + "\t" + bal[index].bal19
+          ? "ok"
+          : "" + "\t" + bal[index].bal20
+          ? "ok"
+          : "" + "\n";
       writeStream.write(row1);
     }
     console.log(header + row1);
