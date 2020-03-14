@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate')
 
 const Protocol = new Schema({
   user: {
@@ -15,4 +16,5 @@ const Protocol = new Schema({
     default: Date.now()
   }
 });
+Protocol.plugin(mongoosePaginate)
 module.exports = mongoose.model("protocols", Protocol);
