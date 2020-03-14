@@ -3,6 +3,7 @@ mongo
 show dbs 
 https://docs.mongodb.com/manual/reference/operator/query/text/index.html
 db.articles.createIndex( { subject: "text" } )
+db.commands.createIndex( { subject: "text" } )
 ----
 
 stores.find({

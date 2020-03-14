@@ -1,5 +1,5 @@
 1° fazer home
-2° arrumar tamanho da tabela de cadastro de balança
+2° arrumar tamanho da tabela de cadastro de balança  ok
 3° fazer Ata online
 4°arrumar navbar
 5° Fazer sistema de busca

@@ -13,10 +13,10 @@ router.post("/admin/commands/save", (req, res) => {
     title: req.body.title,
     body: req.body.body
   };
+
   new Command(newCommand)
     .save()
     .then(() => {
-      console.log("Comando Salvo com Sucesso");
       req.flash("success_msg", "Comando criado com Sucesso!");
       res.redirect("/admin/commands/create");
     })

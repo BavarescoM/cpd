@@ -4,8 +4,11 @@ const mongoose = require("mongoose");
 const ValidationContract = require("../Helpers/validators");
 require("../Models/Balance");
 const Balance = mongoose.model("balances");
-//const { zonedTimeToUtc } = require("date-fns-tz");
+const { zonedTimeToUtc } = require("date-fns-tz");
 const pt = require("date-fns/locale/pt");
+require("../Models/Protocol");
+const Protocol = mongoose.model("protocols");
+var fs = require("fs");
 
 const {
   parseISO,
@@ -31,9 +34,9 @@ router.get("/", (req, res) => {
       }
     } else {
       if (status.length == 0) {
-        statusBalA = false; statusBalM = false
-      }
-      else {
+        statusBalA = false;
+        statusBalM = false;
+      } else {
         if (status[0].period == "Tarde" || status[1].period == "Tarde") {
           statusBalA = true;
         }
@@ -42,11 +45,33 @@ router.get("/", (req, res) => {
         }
       }
     }
-    res.render("general/index", {
-      statusBalA,
-      statusBalM,
-      formattedDate
-    });
+    Protocol.find()
+      .then(protocol => {
+        var arrD = [];
+        var DateP = protocol.map(function(datep) {
+          var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
+          console.log(firstDate + "fd");
+          const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
+          console.log(znDate + "zn");
+          var dat = format(znDate, "dd'/'MM'/'yyyy'");
+          arrD.push({
+            dat: dat,
+            user: datep.user,
+            body: datep.body,
+            id: datep._id
+          });
+        });
+        res.render("general/index", {
+          arrD,
+          statusBalA,
+          statusBalM,
+          formattedDate
+        });
+      })
+      .catch(error => {
+        req.flash("error_msg", "Erro ao carregar Ata");
+        res.redirect("/");
+      });
   });
 });
 
@@ -108,16 +133,89 @@ router.get("/bal/report", (req, res) => {
       res.render("general/bal/report", { bal });
     });
 });
+router.get("/excel", (req, res) => {
+  var writeStream = fs.createWriteStream("file.xls");
+  Balance.find().then(bal => {
+    var header =
+      "Data" +
+      "\t" +
+      " Usuario" +
+      "\t" +
+      "Periodo" +
+      "\t" +
+      "Bal10" +
+      "\t" +
+      "Bal11" +
+      "\t" +
+      "Bal12" +
+      "\t" +
+      "Bal13" +
+      "\t" +
+      "Bal14" +
+      "\t" +
+      "Bal15" +
+      "\t" +
+      "Bal16" +
+      "\t" +
+      "Bal17" +
+      "\t" +
+      "Bal18" +
+      "\t" +
+      "Bal19" +
+      "\t" +
+      "Bal20" +
+      "\n";
+    writeStream.write(header);
+    for (var index = 0; index < bal.length; index++) {
+      var row1 =
+        bal[index].date +
+        "\t" +
+        bal[index].user +
+        "\t" +
+        bal[index].period +
+        "\t" +
+        bal[index].bal10 +
+        "\t" +
+        bal[index].bal11 +
+        "\t" +
+        bal[index].bal12 +
+        "\t" +
+        bal[index].bal13 +
+        "\t" +
+        bal[index].bal14 +
+        "\t" +
+        bal[index].bal15 +
+        "\t" +
+        bal[index].bal16 +
+        "\t" +
+        bal[index].bal17 +
+        "\t" +
+        bal[index].bal18 +
+        "\t" +
+        bal[index].bal19 +
+        "\t" +
+        bal[index].bal20 +
+        "\n";
+      writeStream.write(row1);
+    }
+    console.log(header + row1);
+
+    //writeStream.write(row2);
+    writeStream.close();
+    console.log("passou aki");
+    res.redirect("/bal/report");
+  });
+});
 
 router.get("/bal/delete/:id", (req, res) => {
   const id = req.params.id;
   Balance.findOneAndRemove({ _id: id })
     .then(() => {
-      req.flash('success_msg', 'Deletado com Sucesso');
+      req.flash("success_msg", "Deletado com Sucesso");
       res.redirect("/bal/report");
     })
     .catch(error => {
-      req.flash('msg_error', "Erro ao Deletar" + error);
+      req.flash("msg_error", "Erro ao Deletar" + error);
     });
 });
 
@@ -130,11 +228,17 @@ router.get("/bal/edit/:id", (req, res) => {
 
 router.post("/bal/edit", async (req, res) => {
   let bo;
+  console.log(req.body.id);
+  console.log(req.body.date);
   await Balance.find({ date: req.body.date, period: req.body.period }).then(
     ret => {
-      if (ret[0].id != req.body.id) {
-        if (ret != null) {
-          bo = 0;
+      console.log(ret);
+      if (ret == "") {
+      } else {
+        if (ret[0].id != req.body.id) {
+          if (ret != null) {
+            bo = 0;
+          }
         }
       }
     }

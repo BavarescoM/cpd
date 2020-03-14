@@ -15,6 +15,7 @@ const commands = require("./Routes/commands");
 
 const session = require("express-session");
 const flash = require("connect-flash");
+const protocols = require("./Routes/protocols");
 
 app.use(cookieParser("secret"));
 
@@ -64,6 +65,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/", general);
 app.use("/", commands);
+app.use("/", protocols);
 
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {

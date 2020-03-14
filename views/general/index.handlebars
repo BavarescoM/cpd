@@ -1,39 +1,41 @@
 <div class="profile-card">
-	<div class="top-section ml-2 text-center">
-		<div class="pic">
-			<img src="/img/scale.png" alt="">
-		</div>
+	<div class="top-section d-flex w-100 ml-2 mr-2 mb-5">
 		<div class="name">Aferição de Balança Dia:{{formattedDate}}</div>
-		<div>
+		<div class="mt-2">
 			{{#if statusBalM}}
 			<div class="alert alert-success">Manhã OK</div>
 			{{else}}
-			<div class="alert alert-danger">Falta Fazer Manhã</div>
+			<div class="alert alert-danger">Falta Fazer Aferição da Manhã</div>
 			{{/if}}
 		</div>
-		<div>
+		<div class="mt-2 ml-5">
 			{{#if statusBalA}}
 			<div class="alert alert-success">Tarde OK</div>
 			{{else}}
-			<div class="alert alert-danger">Falta Fazer <br> Aferição da Tarde/Noite</div>
+			<div class="alert alert-danger">Falta Fazer Aferição da Tarde/Noite</div>
 			{{/if}}
 
 		</div>
 
 
 	</div>
-	<div class="top-section w-100 mr-2">
+
+</div>
+   
+	<div class="top-section ml-2 mr-2 mb-4">
 		<p class="name text-center">Ata ONLINE {{formattedDate}}</p>
+		{{#each arrD}}
 		<div class="bottom-section">
-			<div class="card">
-				<div class="card-header">
-					Data da Publicação <br>
-					User
-				</div>
+			<div class="card mb-2">
 				<div class="card-body">
-					Asunto
+					{{dat}}  Postado por: {{user}} <hr>	{{{body}}}
 				</div>
 			</div>
 		</div>
+			{{else}}
+			{{/each}}
+			<br>
+			<button class=" btn btn-primary ml-2"> Anterior</button>
+			<button  class="d-flex btn btn-primary float-right mr-2" >Proximo</button>
 	</div>
-</div>
+	
