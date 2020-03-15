@@ -1,0 +1,42 @@
+<div class="card ml-2 mr-2 bg-dark text-light">
+	<div class="card-header text-center">
+		<h2>Preencher ATA Online</h2>
+	</div>
+
+	<div class="card-body">
+		<form action="/protocols/edit" method="POST">
+                  <input type="hidden" value="{{protocol.id}}" name="id">
+			      <select class="custom-select mt-4 mb-4" name="user">     
+                                                
+                                                <option selected value="{{protocol.user}}">{{protocol.user}}</option>
+                                                <option value="Anderson">Anderson</option>
+                                                <option value="Daniel">Daniel</option>
+                                                <option value="Johnny">Johnny</option>
+                                                <option value="Maurício">Maurício</option>
+                                                <option value="Ricardo">Ricardo</option>
+                                        </select>
+			<textarea id="body" name="body" id="body" placeholder="Digite os Acontecimentos do Dia!!!" name="body"
+				class="form-control mt-4"></textarea>
+
+			<button class="btn btn-success mt-4 btn-block" type="submit">Enviar</button>
+		</form>
+	</div>
+</div>
+
+<div style="display: none;" id="content">
+    {{{protocol.body}}}
+</div>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        language: 'pt_BR',
+        selector: '#body',
+        plugins: [
+            'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
+        ],
+        init_instance_callback: () => {
+            tinymce.get('body').setContent($("#content").html())
+        }
+    })
+</script>

@@ -9,7 +9,7 @@ const pt = require("date-fns/locale/pt");
 require("../Models/Protocol");
 const Protocol = mongoose.model("protocols");
 var fs = require("fs");
-var pdf = require('html-pdf');
+var pdf = require("html-pdf");
 const handlebars = require("express-handlebars");
 
 const {
@@ -48,30 +48,22 @@ router.get("/", (req, res) => {
       }
     }
     const { page = 1 } = req.query;
-    Protocol.paginate({}, { page, limit: 4 })
+    Protocol.paginate({}, { page, limit: 4, sort: { date: -1 } })
       .then(protocol => {
         var arrD = [];
-        var arrC = [];
-        var DateP = protocol.docs.map(function (datep) {
+        var DateP = protocol.docs.map(function(datep) {
           var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
           const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
           var dat = format(znDate, "dd'/'MM'/'yyyy'");
-          arrC.push({
+          arrD.push({
             dat: dat,
             user: datep.user,
             body: datep.body,
             id: datep._id
           });
         });
-        arrD.info = arrC.slice();
-        arrD.push({
-          total: protocol.total,
-          limit: protocol.limit,
-          page: protocol.page,
-          pages: protocol.pages
-        });
         var prox = parseInt(req.query.page) + 1;
-        if ((req.query.page) == undefined) {
+        if (req.query.page == undefined) {
           prox = 2;
         }
         var next;
@@ -82,7 +74,6 @@ router.get("/", (req, res) => {
         }
         var prev;
         prev = parseInt(req.query.page) - 1;
-
         res.render("general/index", {
           prev,
           prox,
@@ -192,67 +183,82 @@ router.get("/excel", (req, res) => {
       "\n";
     writeStream.write(header);
     for (var index = 0; index < bal.length; index++) {
+      function rep(value) {
+        if (value == "on") {
+          value = "ok";
+          return value;
+        } else {
+          value = "";
+          return value;
+        }
+      }
       var row1 =
         bal[index].date +
-          "\t" +
-          bal[index].user +
-          "\t" +
-          bal[index].period +
-          "\t" +
-          bal[index].bal10
-          ? "ok"
-          : "" + "\t" + bal[index].bal11
-            ? "ok"
-            : "" + "\t" + bal[index].bal12
-              ? "ok"
-              : "" + "\t" + bal[index].bal13
-                ? "ok"
-                : "" + "\t" + bal[index].bal14
-                  ? "ok"
-                  : "" + "\t" + bal[index].bal15
-                    ? "ok"
-                    : "" + "\t" + bal[index].bal16
-                      ? "ok"
-                      : "" + "\t" + bal[index].bal17
-                        ? "ok"
-                        : "" + "\t" + bal[index].bal18
-                          ? "ok"
-                          : "" + "\t" + bal[index].bal19
-                            ? "ok"
-                            : "" + "\t" + bal[index].bal20
-                              ? "ok"
-                              : "" + "\n";
+        "\t" +
+        bal[index].user +
+        "\t" +
+        bal[index].period +
+        "\t" +
+        rep(bal[index].bal10) +
+        "\t" +
+        rep(bal[index].bal11) +
+        "\t" +
+        rep(bal[index].bal12) +
+        "\t" +
+        rep(bal[index].bal13) +
+        "\t" +
+        rep(bal[index].bal14) +
+        "\t" +
+        rep(bal[index].bal15) +
+        "\t" +
+        rep(bal[index].bal16) +
+        "\t" +
+        rep(bal[index].bal17) +
+        "\t" +
+        rep(bal[index].bal18) +
+        "\t" +
+        rep(bal[index].bal19) +
+        "\t" +
+        rep(bal[index].bal20) +
+        "\n";
       writeStream.write(row1);
     }
     console.log(header + row1);
-
-    //writeStream.write(row2);
     writeStream.close();
-    console.log("passou aki");
-    res.redirect("/bal/report");
+
+    //   res.redirect("/bal/report");
+    res.download("/file.xls", "EXCEL.xls");
+    //window.print("./file.xls");
+    //  res.sendFile(__dirname + "../file.xls");
   });
 });
 
-router.get('/pdf', (req, res) => {
-  handlebars.compile(fs.readFileSync('./views/general/bal/report.handlebars', 'utf-8')), (err, html) => {
+router.get("/pdf", (req, res) => {
+  var parsedContent = handlebars.compile(
+    fs.readFileSync(`./views/general/bal/report.handlebars`, "utf-8")
+  )(data.vars);
+  console.log(parsedContent);
+
+  (err, html) => {
     if (err) {
-      console.log('erro');
+      console.log("erro");
     } else {
       console.log(html);
     }
   };
-});
-/*
-pdf.create('meu no lindao', {}).toFile('./meupdf.pdf', (err, res) => {
-  if (err) {
-    console.log('erro')
-  } else {
-    console.log(res);
-    res.redirect('/bal/report');
-  }
-})
-*/
 
+  /*
+
+  pdf.create("meu no lindao", {}).toFile("./meupdf.pdf", (err, reso) => {
+    if (err) {
+      console.log("erro");
+    } else {
+      console.log(reso);
+      res.download(reso.filename, "mypdf.pdf");
+    }
+  });
+*/
+});
 
 router.get("/bal/delete/:id", (req, res) => {
   const id = req.params.id;
