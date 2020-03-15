@@ -20,6 +20,7 @@
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
     "handlebars": "^4.5.3",
+    "html-pdf": "^2.2.0",
     "mongoose": "^5.9.2",
     "mongoose-paginate": "git://github.com/zerok78/mongoose-paginate.git#version-5.0.4",
     "nodemon": "^2.0.2"

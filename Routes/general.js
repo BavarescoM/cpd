@@ -9,6 +9,8 @@ const pt = require("date-fns/locale/pt");
 require("../Models/Protocol");
 const Protocol = mongoose.model("protocols");
 var fs = require("fs");
+var pdf = require('html-pdf');
+const handlebars = require("express-handlebars");
 
 const {
   parseISO,
@@ -50,7 +52,7 @@ router.get("/", (req, res) => {
       .then(protocol => {
         var arrD = [];
         var arrC = [];
-        var DateP = protocol.docs.map(function(datep) {
+        var DateP = protocol.docs.map(function (datep) {
           var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
           const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
           var dat = format(znDate, "dd'/'MM'/'yyyy'");
@@ -69,21 +71,20 @@ router.get("/", (req, res) => {
           pages: protocol.pages
         });
         var prox = parseInt(req.query.page) + 1;
-        if (parseInt(req.query) == NaN) {
-          prox = 1;
+        if ((req.query.page) == undefined) {
+          prox = 2;
         }
-
         var next;
         if (parseInt(req.query.page) != parseInt(protocol.pages)) {
           next = true;
         } else {
           next = false;
         }
-        //console.log(next);
-        //console.log(req.query.page);
-        //console.log(protocol.pages);
-        console.log(prox);
+        var prev;
+        prev = parseInt(req.query.page) - 1;
+
         res.render("general/index", {
+          prev,
           prox,
           next,
           arrD,
@@ -193,34 +194,34 @@ router.get("/excel", (req, res) => {
     for (var index = 0; index < bal.length; index++) {
       var row1 =
         bal[index].date +
-        "\t" +
-        bal[index].user +
-        "\t" +
-        bal[index].period +
-        "\t" +
-        bal[index].bal10
+          "\t" +
+          bal[index].user +
+          "\t" +
+          bal[index].period +
+          "\t" +
+          bal[index].bal10
           ? "ok"
           : "" + "\t" + bal[index].bal11
-          ? "ok"
-          : "" + "\t" + bal[index].bal12
-          ? "ok"
-          : "" + "\t" + bal[index].bal13
-          ? "ok"
-          : "" + "\t" + bal[index].bal14
-          ? "ok"
-          : "" + "\t" + bal[index].bal15
-          ? "ok"
-          : "" + "\t" + bal[index].bal16
-          ? "ok"
-          : "" + "\t" + bal[index].bal17
-          ? "ok"
-          : "" + "\t" + bal[index].bal18
-          ? "ok"
-          : "" + "\t" + bal[index].bal19
-          ? "ok"
-          : "" + "\t" + bal[index].bal20
-          ? "ok"
-          : "" + "\n";
+            ? "ok"
+            : "" + "\t" + bal[index].bal12
+              ? "ok"
+              : "" + "\t" + bal[index].bal13
+                ? "ok"
+                : "" + "\t" + bal[index].bal14
+                  ? "ok"
+                  : "" + "\t" + bal[index].bal15
+                    ? "ok"
+                    : "" + "\t" + bal[index].bal16
+                      ? "ok"
+                      : "" + "\t" + bal[index].bal17
+                        ? "ok"
+                        : "" + "\t" + bal[index].bal18
+                          ? "ok"
+                          : "" + "\t" + bal[index].bal19
+                            ? "ok"
+                            : "" + "\t" + bal[index].bal20
+                              ? "ok"
+                              : "" + "\n";
       writeStream.write(row1);
     }
     console.log(header + row1);
@@ -231,6 +232,27 @@ router.get("/excel", (req, res) => {
     res.redirect("/bal/report");
   });
 });
+
+router.get('/pdf', (req, res) => {
+  handlebars.compile(fs.readFileSync('./views/general/bal/report.handlebars', 'utf-8')), (err, html) => {
+    if (err) {
+      console.log('erro');
+    } else {
+      console.log(html);
+    }
+  };
+});
+/*
+pdf.create('meu no lindao', {}).toFile('./meupdf.pdf', (err, res) => {
+  if (err) {
+    console.log('erro')
+  } else {
+    console.log(res);
+    res.redirect('/bal/report');
+  }
+})
+*/
+
 
 router.get("/bal/delete/:id", (req, res) => {
   const id = req.params.id;
