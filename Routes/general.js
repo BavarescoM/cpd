@@ -51,7 +51,7 @@ router.get("/", (req, res) => {
     Protocol.paginate({}, { page, limit: 4, sort: { date: -1 } })
       .then(protocol => {
         var arrD = [];
-        var DateP = protocol.docs.map(function(datep) {
+        var DateP = protocol.docs.map(function (datep) {
           var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
           const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
           var dat = format(znDate, "dd'/'MM'/'yyyy'");
@@ -223,29 +223,34 @@ router.get("/excel", (req, res) => {
         "\n";
       writeStream.write(row1);
     }
-    console.log(header + row1);
-    writeStream.close();
 
+    writeStream.close();
+    console.log(header + row1);
     //   res.redirect("/bal/report");
-    res.download("/file.xls", "EXCEL.xls");
-    //window.print("./file.xls");
+    res.download("file.xls", "EXCEL.xls"); //window.print("./file.xls");
     //  res.sendFile(__dirname + "../file.xls");
   });
 });
 
 router.get("/pdf", (req, res) => {
-  var parsedContent = handlebars.compile(
-    fs.readFileSync(`./views/general/bal/report.handlebars`, "utf-8")
-  )(data.vars);
-  console.log(parsedContent);
+  /*// init code
+var exphbs = require('express-handlebars');
+var hbs = exphbs.create({
+    defaultLayout: 'your-layout-name',
+    helpers: require("path-to-your-helpers-if-any"),
+});
+app.engine('.file-extention-you-use', hbs.engine);
+app.set('view engine', '.file-extention-you-use');
 
-  (err, html) => {
-    if (err) {
-      console.log("erro");
-    } else {
-      console.log(html);
-    }
-  };
+// ...then, in the router
+hbs.render('full-path-to-view',conext, options).then(function(hbsTemplate){
+     // hbsTemplate contains the rendered html, do something with it...
+});
+*/
+
+
+  //  var parsedContent = handlebars.compile(`./views/general/bal/report.handlebars`, "utf-8");
+  //console.log(parsedContent);
 
   /*
 
