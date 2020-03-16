@@ -6,8 +6,21 @@
 {{#if message}}
 <div class="alert alert-success">{{message}}</div>
 {{/if}}
+   <div class="container w-100 bg-light mb-4">
+      <form action="/report/month" method="POST"  >
+        <div class="row">
+        <input class="form-control mb-3 w-50" name="month" type="month">
+        <button class="btn btn-primary w-25 ml-5">Buscar</button>
+        </div>
+        <label class="form-control w-50">Dados referente ao Periodo: {{month}}</label>
+        <a href="/excel" class="btn btn-success w-25">Gerar Excel</a>
+        <a href="/pdf" class="btn btn-danger w-25">Gerar Pdf</a>
+        
+      </form>
+    </div>
 
 <table class="table table-striped table-dark text-center ">
+  {{#if bal}}
   <thead>
     <tr>
       <th>Data</th>
@@ -16,20 +29,10 @@
       <th colspan="11">Balanças</th>
     </tr>
   </thead>
+  {{else}}
+  {{/if}}
 
   <tbody>
-
-    <div class="container w-100 bg-light mb-4">
-      <form action="">
-        <select class="custom-select w-50">
-          <option value="">mes</option>
-
-        </select>
-        <button class="btn btn-primary btn-lg">Buscar</button>
-        <a href="/excel" class="btn btn-success btn-lg">Gerar Excel</a>
-        <a href="/pdf" class="btn btn-danger btn-lg">Gerar Pdf</a>
-      </form>
-    </div>
     {{#each bal}}
     <tr>
       <td scope="col">
@@ -51,9 +54,10 @@
       <td><a href="/bal/edit/{{id}}" class="btn btn-warning">Editar</a></td>
       <td><a href="/bal/delete/{{id}}" class="btn btn-danger">Excluir</a></td>
     </tr>
-    {{else}}
-
-    {{/each}}
+    
   </tbody>
+    {{else}}
+    <div class="btn btn-info btn-block">Nenhum Dado Encontrado</div>
+    {{/each}}
 
 </table>

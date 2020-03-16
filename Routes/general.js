@@ -51,7 +51,7 @@ router.get("/", (req, res) => {
     Protocol.paginate({}, { page, limit: 4, sort: { date: -1 } })
       .then(protocol => {
         var arrD = [];
-        var DateP = protocol.docs.map(function (datep) {
+        var DateP = protocol.docs.map(function(datep) {
           var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
           const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
           var dat = format(znDate, "dd'/'MM'/'yyyy'");
@@ -247,11 +247,8 @@ hbs.render('full-path-to-view',conext, options).then(function(hbsTemplate){
      // hbsTemplate contains the rendered html, do something with it...
 });
 */
-
-
   //  var parsedContent = handlebars.compile(`./views/general/bal/report.handlebars`, "utf-8");
   //console.log(parsedContent);
-
   /*
 
   pdf.create("meu no lindao", {}).toFile("./meupdf.pdf", (err, reso) => {
@@ -351,6 +348,30 @@ router.post("/bal/edit", async (req, res) => {
         res.redirect("/bal/report");
       });
   }
+});
+
+router.post("/report/month", (req, res) => {
+  console.log(req.body.month);
+  var regexp = new RegExp("^" + req.body.month);
+  var remonth = req.body.month.split("");
+  var month =
+    remonth[5] +
+    remonth[6] +
+    remonth[4] +
+    remonth[0] +
+    remonth[1] +
+    remonth[2] +
+    remonth[3];
+  console.log(month);
+  Balance.find({ date: regexp })
+    .then(bal => {
+      console.log(bal);
+      res.render("general/bal/report", { bal, month });
+    })
+    .catch(error => {
+      console.log("bo" + error);
+      res.redirect("/bal/report");
+    });
 });
 
 module.exports = router;
