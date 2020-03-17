@@ -6,17 +6,20 @@
 {{#if message}}
 <div class="alert alert-success">{{message}}</div>
 {{/if}}
-   <div class="container w-100 bg-light mb-4">
+     
+   <div class="container w-100 bg-light mb-4 bg-transparent">
       <form action="/report/month" method="POST"  >
-        <div class="row">
-        <input class="form-control mb-3 w-50" name="month" type="month">
-        <button class="btn btn-primary w-25 ml-5">Buscar</button>
+        <div class="row d-flex justify-content-between">
+        <input class="form-control mb-3 w-50 " name="month" type="month" value="{{utc}}">
+        <button class="btn btn-primary w-25"><img id="icon" src="/img/search.svg"></button>
+        <a href="/pdf" class="btn btn-danger "><img id="icon" src="/img/pdf.svg"></a>
+        <a href="/excel/{{auxmonth}}" class="btn btn-success"><img id="icon" src="/img/excel.svg"></a>
         </div>
-        <label class="form-control w-50">Dados referente ao Periodo: {{month}}</label>
-        <a href="/excel" class="btn btn-success w-25">Gerar Excel</a>
-        <a href="/pdf" class="btn btn-danger w-25">Gerar Pdf</a>
-        
       </form>
+       <div class="row mt-3">
+       <label class="form-control w-100 text-center">Dados referente ao Período: {{month}}</label>
+       
+      </div>
     </div>
 
 <table class="table table-striped table-dark text-center ">

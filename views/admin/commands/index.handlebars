@@ -1,20 +1,25 @@
-<div class="form-control btn btn-info text-center">Comandos</div>
-{{#each commands}}
-
-<div class="card mt-4">
-    <div class="card-header">
-        <h5>{{{title}}}</h5>
+<div class="container">
+    <div class="form-control btn btn-info text-center">Comandos</div>
+    {{#each commands}}
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>{{{title}}}</h5>
+        </div>
+        <div class="card-body">
+            <h5>{{{body}}}</h5>
+        </div>
+        <div class="card-footer text-center btn-group ">
+            <a href="/admin/commands/edit/{{id}}" class="btn btn-warning ">Editar</a>
+            <a href="/admin/commands/delete/{{id}}" class="btn btn-danger ">Excluir</a>
+        </div>
     </div>
-    <div class="card-body">
-        <h5>{{{body}}}</h5>
-    </div>
-    <div class="card-footer text-center btn-group ">
-        <a href="/admin/commands/edit/{{id}}" class="btn btn-warning ">Editar</a>
-        <a href="/admin/commands/delete/{{id}}" class="btn btn-danger ">Excluir</a>
-    </div>
+    
+    {{else}}
+    <div class="form-control btn btn-danger text-center">Nenhum Comando Encontrado</div>
+    
+    {{/each}}
+    <br>
+    <br>
+    <br>
 </div>
-
-{{else}}
-<div class="form-control btn btn-danger text-center">Nenhum Comando Encontrado</div>
-
-{{/each}}

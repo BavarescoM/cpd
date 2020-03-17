@@ -1,8 +1,7 @@
 1° fazer home
-2° arrumar tamanho da tabela de cadastro de balança  ok
-3° fazer Ata online
+
+2º arrumar crud aferição
 4°arrumar navbar
-5° Fazer sistema de busca
+
 6° Fazer login
-7° Fazer buscar por mes e gerar pdf na aba balança
-8°  paginação
+7° gerar pdf na aba balança

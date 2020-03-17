@@ -1,15 +1,10 @@
 <div class="container">
-	<form action="" method="POST" class="d-flex justify-content-between mb-4">
-		<input placeholder="Pesquisar" type="search" name="search" class="form-control w-50 "><button type="submit" class="btn btn-primary w-25 float-sm-rigth">Pesquisar</button>
-	</form>
-	<div class="form-control btn btn-info text-center">Comandos</div>
+	<div class="btn btn-info text-center w-100">Comandos <img id="icon" src="/img/cmd.svg"></div>
 	{{# each commands}}
 	<div class="card mt-2">
 		<div class="card-header row">
-			<a href="/admin/commands/list/{{id}}" class="btn btn-success btn-lg ">Ler</a>
+			<a href="/admin/commands/list/{{id}}" class="btn btn-success btn-lg "><img src="/img/book.svg" id="icon"> Ler</a>
 			<div  class="text-center w-75 mr"><strong>{{{title}}} </strong></div>	
-			
-			
 			</div>
 	</div>
 	{{else}}

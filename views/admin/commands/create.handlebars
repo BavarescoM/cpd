@@ -1,16 +1,18 @@
-<div class="card">
-	<div class="card-header text-center">
-		<h2>Criar Comandos</h2>
-	</div>
-
-	<div class="card-body">
-		<form action="/admin/commands/save" method="POST">
-			<input name="title" type="text" class="mt-4 form-control" placeholder="Título do Comando">
-			<textarea id="body" name="body" placeholder="Digite o Comando" name="body"
-				class="form-control mt-4"></textarea>
-
-			<button class="btn btn-success mt-4 btn-block" type="submit">Enviar</button>
-		</form>
+<div class="container">
+	<div class="card bg-dark text-light">
+		<div class="card-header text-center">
+			<h2>Criar Comando <img id="icon" src="/img/cmd.svg"></h2>
+		</div>
+	
+		<div class="card-body">
+			<form action="/admin/commands/save" method="POST">
+				<input name="title" type="text" class="mt-4 mb-4 form-control" placeholder="Título do Comando">
+				<textarea id="body" name="body" placeholder="Digite o Comando" name="body"
+					class="form-control mt-4"></textarea>
+	
+				<button class="btn btn-success mt-4 btn-block" type="submit">Enviar</button>
+			</form>
+		</div>
 	</div>
 </div>
 
