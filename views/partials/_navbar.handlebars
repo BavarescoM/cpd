@@ -1,38 +1,48 @@
 
-    <ul class="nav bg-dark text-danger">
-    <li class="nav-item">
-        
-    </li>
+    <ul class="nav bg-light text-danger mb-5">
+    
     <li class="navbar-brand">
-        <a class="nav-link" href="/">Casa</a>
+        <a class="nav-link" href="/"><img src="/img/Logo.png" id="icon"></a>
     </li>
-    <li class="nav-item dropdown">
-        <a class="text-light bg-light nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/scale.png" id="icon"></a>
-        <div class="dropdown-menu">
-        <a class="dropdown-item " href="/bal">Limpar Balança</a>
-        <a class="dropdown-item" href="/bal/report">Relatorio</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+    {{#if user}}
+    <li class="navbar-brand">
+        <a class="nav-link" href="/logout"><img src="/img/logout.svg" id="icon"></a>
+    </li>
+    {{else}}
+    <li class="navbar-brand">
+        <a class="nav-link" href="/login"><img src="/img/login.svg" id="icon"></a>
+    </li>
+    {{/if}}
 
-    </li>
-    <li class="navbar-brand">
-        <a class="nav-link" href="/admin/commands/create">Criar Comando</a>
-    </li>
-    <li class="navbar-brand">
-        <a class="nav-link" href="/admin/commands/index">Deletar/Editar Comandos</a>
-    </li>
-       <li class="navbar-brand">
-        <a class="nav-link" href="/admin/commands/list">Lista de Comando</a>
-    </li>
-        <li class="navbar-brand">
-        <a class="nav-link" href="/protocols/create">Registrar na Ata</a>
-    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/ata.svg" id="icon"></a>
+        <div class="dropdown-menu">
     
-        <li class="navbar-brand">
-        <a class="nav-link" href="/protocols/list">Editar/ Excluir Itens da Ata</a>
+        <a class="dropdown-item " href="/protocols/create">Registrar na Ata</a>
+         {{#if user}}
+        <a class="dropdown-item " href="/protocols/list">Editar/ Excluir Itens da Ata</a>
+        {{/if}}
+        </div>    
     </li>
-        
-        
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/scale.png" id="icon"></a>
+        <div class="dropdown-menu">
+        <a class="dropdown-item " href="/bal">Marcar Limpeza da Balança</a>
+        <a class="dropdown-item " href="/bal">Marcar Aferição</a>
+        {{#if user}}<a class="dropdown-item" href="/bal/report">Relatorio</a>{{/if}}    
+        </div>
+    </li>
+
+    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/img/cmd.svg" id="icon"></a>
+    <div class="dropdown-menu">
     
-    
+        <a class="dropdown-item" href="/admin/commands/list">Lista de Comando</a>
+        {{#if user}}
+        <a class="dropdown-item" href="/admin/commands/create">Criar Comando</a>
+        <a class="dropdown-item" href="/admin/commands/index">Deletar/Editar Comandos</a>
+        {{/if}}
+    </div>
+    </li>
     </ul>

@@ -3,12 +3,13 @@ const router = express.Router();
 const mongoose = require("mongoose");
 require("../Models/Command");
 const Command = mongoose.model("commands");
+const adminAuth = require("../middlewares/adminAuth");
 
-router.get("/admin/commands/create", (req, res) => {
+router.get("/admin/commands/create", adminAuth, (req, res) => {
   res.render("admin/commands/create");
 });
 
-router.post("/admin/commands/save", (req, res) => {
+router.post("/admin/commands/save", adminAuth, (req, res) => {
   const newCommand = {
     title: req.body.title,
     body: req.body.body
@@ -25,20 +26,20 @@ router.post("/admin/commands/save", (req, res) => {
     });
 });
 
-router.get("/admin/commands/index", (req, res) => {
+router.get("/admin/commands/index", adminAuth, (req, res) => {
   Command.find().then(commands => {
     res.render("admin/commands/index", { commands });
   });
 });
 
-router.get("/admin/commands/edit/:id", (req, res) => {
+router.get("/admin/commands/edit/:id", adminAuth, (req, res) => {
   Command.findById({ _id: req.params.id }).then(commands => {
     console.log(commands);
     res.render("admin/commands/edit", { commands });
   });
 });
 
-router.post("/admin/commands/edit", (req, res) => {
+router.post("/admin/commands/edit", adminAuth, (req, res) => {
   var id = req.body.id;
   console.log(id);
   Command.findById({ _id: id }).then(commands => {
@@ -58,7 +59,7 @@ router.post("/admin/commands/edit", (req, res) => {
   });
 });
 
-router.get("/admin/commands/delete/:id", (req, res) => {
+router.get("/admin/commands/delete/:id", adminAuth, (req, res) => {
   const id = req.params.id;
   Command.findOneAndRemove({ _id: id })
     .then(() => {
@@ -82,9 +83,4 @@ router.get("/admin/commands/list/:id", (req, res) => {
   });
 });
 
-/*
-router.get("/admin/commands/searc-list", (req,res) => {
-
-});
-*/
 module.exports = router;

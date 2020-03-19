@@ -10,9 +10,9 @@ require("../Models/Protocol");
 const Protocol = mongoose.model("protocols");
 var fs = require("fs");
 var pdf = require("html-pdf");
-const handlebars = require("express-handlebars");
+const handlebars = require("handlebars");
 //let PDF = require('handlebars-pdf')
-
+var HandlebarsParser = require("handlebars-parser");
 
 const {
   parseISO,
@@ -146,26 +146,26 @@ router.post("/bal/create", async (req, res) => {
 
 router.get("/bal/report", (req, res) => {
   var utc = new Date().toJSON().slice(0, 7);
-  var regexp = new RegExp("^" + utc); 
+  var regexp = new RegExp("^" + utc);
   var auxmonth = 0;
-  Balance.find({date: regexp})
+  Balance.find({ date: regexp })
     .sort({ date: -1 })
     .then(bal => {
-      res.render("general/bal/report", { bal,auxmonth,utc });
+      res.render("general/bal/report", { bal, auxmonth, utc });
     });
 });
-router.get("/excel/:month?", (req, res) => { 
-	console.log(req.params.month);
-  if (req.params.month == 0){
-  var utc = new Date().toJSON().slice(0, 7);
-  var regexp = new RegExp("^" + utc); 
-  }else{
-  	var regexp = new RegExp("^" + req.params.month); 
+router.get("/excel/:month?", (req, res) => {
+  console.log(req.params.month);
+  if (req.params.month == 0) {
+    var utc = new Date().toJSON().slice(0, 7);
+    var regexp = new RegExp("^" + utc);
+  } else {
+    var regexp = new RegExp("^" + req.params.month);
   }
   console.log(regexp);
   var writeStream = fs.createWriteStream("file.xls");
-  Balance.find({date: regexp}).then(bal => {
-  	console.log(bal);
+  Balance.find({ date: regexp }).then(bal => {
+    console.log(bal);
     var header =
       "Data" +
       "\t" +
@@ -196,8 +196,8 @@ router.get("/excel/:month?", (req, res) => {
       "Bal20" +
       "\n";
     writeStream.write(header);
-     for (var index = 0; index < bal.length; index++) {
-      function  rep(value) {
+    for (var index = 0; index < bal.length; index++) {
+      function rep(value) {
         if (value == "on") {
           value = "ok";
           return value;
@@ -238,51 +238,31 @@ router.get("/excel/:month?", (req, res) => {
       writeStream.write(row1);
     }
     writeStream.close();
-    setTimeout(function(){ res.download("file.xls", "EXCEL.xls"); }, 5000);// ver async await depois
+    setTimeout(function() {
+      res.download("file.xls", "EXCEL.xls");
+    }, 5000); // ver async await depois
   });
 });
 
 router.get("/pdf", async (req, res) => {
-	/*
-let document = {
-        template: '<h1>{{msg}}</h1>'+
-        '<p style="color:red">Red text</p>'+
-        '<img src="https://archive.org/services/img/image" />',
-        context: {
-            msg: 'Hello world'
-        },
-        path: "./test-"+Math.random()+".pdf"
-    }
- 
-pdf.create(document)
-    .then(res => {
-        console.log(res)
-    })
-    .catch(error => {
-        console.error(error)
-    })
-    */
-    const tpl = handlebars.compile(fs.readFileSync(  './views/general/bal/report.handlebars').toString('utf-8'));
-    console.log(tpl);
+  var auxpdf = true;
+  Balance.find({}).then(bal => {
+    var html = fs.readFileSync("./views/general/bal/report.handlebars", "utf8");
+    var template = handlebars.compile(html);
+    var parsehtml = template({ bal, auxpdf });
+    console.log(parsehtml);
 
-/*
-    Balance.find({}).then((bal)=>{
-      var html = fs.readFileSync('./views/general/bal/report.handlebars', 'utf8');
-	  console.log(html);
-	  console.log(bal);
-	  var options = { "orientation":'landscape',bal };
+    var options = { orientation: "landscape" };
 
-	  pdf.create(html, options).toFile("./meupdf.pdf", (err, reso) => {
-	    if (err) {
-	      console.log("erro");
-	    } else {
-	      console.log(reso);
-	      res.download(reso.filename, "mypdf.pdf");
-	    }
-	  });
-
-    })
-    */
+    pdf.create(parsehtml, options).toFile("./meupdf.pdf", (err, reso) => {
+      if (err) {
+        console.log("erro");
+      } else {
+        console.log(reso);
+        res.download(reso.filename, "mypdf.pdf");
+      }
+    });
+  });
 });
 
 router.get("/bal/delete/:id", (req, res) => {
@@ -374,11 +354,10 @@ router.post("/bal/edit", async (req, res) => {
 });
 
 router.post("/report/month", (req, res) => {
-  
   var regexp = new RegExp("^" + req.body.month);
   var auxmonth = req.body.month;
   var remonth = req.body.month.split("");
-  
+
   var month =
     remonth[5] +
     remonth[6] +
@@ -389,10 +368,10 @@ router.post("/report/month", (req, res) => {
     remonth[3];
 
   console.log(month);
-  
+
   Balance.find({ date: regexp })
     .then(bal => {
-      res.render('general/bal/report', { bal, month, auxmonth });
+      res.render("general/bal/report", { bal, month, auxmonth });
     })
     .catch(error => {
       console.log("bo" + error);
