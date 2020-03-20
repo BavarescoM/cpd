@@ -6,7 +6,8 @@
 {{#if message}}
 <div class="alert alert-success">{{message}}</div>
 {{/if}}
-     {{#if auxpdf }}
+    {{bal.auxpdf}}
+     {{#if bal.auxpdf }}
    <div class="container w-100 bg-light mb-4 bg-transparent" hidden="hidden">
      {{else}}
    <div class="container w-100 bg-light mb-4 bg-transparent">
@@ -42,7 +43,7 @@
     {{#each bal}}
     <tr>
       <td scope="col">
-        <input class="form-control text-light bg-dark text-center" type="date" disabled value="{{date}}">
+        <input id="inpdate" class="text-center" type="date" disabled value="{{date}}">
       </td>
       <td scope="col">{{user}}</td>
       <td scope="col">{{period}}</td>
@@ -57,7 +58,10 @@
       <td scope="col" {{#if bal18 }}style="background:green" {{else}}{{/if}}>Bal18</td>
       <td scope="col" {{#if bal19 }}style="background:green" {{else}}{{/if}}>Bal19</td>
       <td scope="col" {{#if bal20 }}style="background:green" {{else}}{{/if}}>Bal20</td>
-      {{#if auxpdf }}
+      {{bal.auxpdf}}
+      {{#if bal.auxpdf }}
+      <td hidden="hidden"><a href="/bal/edit/{{id}}" class="btn btn-warning">Editar</a></>
+      <td hidden="hidden"><a href="/bal/delete/{{id}}" class="btn btn-danger">Excluir</a></td>
       {{else}}
       <td><a href="/bal/edit/{{id}}" class="btn btn-warning">Editar</a></td>
       <td><a href="/bal/delete/{{id}}" class="btn btn-danger">Excluir</a></td>
@@ -71,6 +75,13 @@
 
 </table>
 <style>
+#inpdate{
+  
+  color:white;
+  background: transparent;
+  border: transparent;
+}
+
 .container {
   width: 100%;
   padding-right: 15px;

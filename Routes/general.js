@@ -7,13 +7,12 @@ const Balance = mongoose.model("balances");
 const { zonedTimeToUtc } = require("date-fns-tz");
 const pt = require("date-fns/locale/pt");
 require("../Models/Protocol");
+require("../Models/Gauging");
+const Gauging = mongoose.model("gaugings");
 const Protocol = mongoose.model("protocols");
 var fs = require("fs");
 var pdf = require("html-pdf");
 const handlebars = require("handlebars");
-//let PDF = require('handlebars-pdf')
-var HandlebarsParser = require("handlebars-parser");
-
 const {
   parseISO,
   format,
@@ -26,7 +25,7 @@ router.get("/", (req, res) => {
   const firstDate = parseISO(utc);
   // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
   const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
-  Balance.find({ date: utc }).then(status => {
+  Gauging.find({ date: utc }).then(status => {
     var statusBalA = false;
     var statusBalM = false;
     if (status.length == 1) {
@@ -245,12 +244,12 @@ router.get("/excel/:month?", (req, res) => {
 });
 
 router.get("/pdf", async (req, res) => {
-  var auxpdf = true;
+  var auxpdf = {};
   Balance.find({}).then(bal => {
     var html = fs.readFileSync("./views/general/bal/report.handlebars", "utf8");
     var template = handlebars.compile(html);
-    var parsehtml = template({ bal, auxpdf });
-    console.log(parsehtml);
+    var parsehtml = template({ bal });
+    console.log(bal);
 
     var options = { orientation: "landscape" };
 

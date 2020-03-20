@@ -1,0 +1,35 @@
+
+<div class="container d-flex justify-content-center align-items-center">
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Data</th>
+      <th scope="col">Usuário</th>
+      <th scope="col">Periodo</th>
+      <th scope="col" colspan="2">Ações</th>
+    </tr>
+  </thead>
+  {{#each arrD}}
+  <tbody>
+    <tr>
+      
+      <td>{{date}}</td>
+      <td>{{user}}</td>
+      <td>{{period}}</td>
+      <td><a class="btn btn-warning" href="/gauging/edit/{{id}}">Editar</a></td>
+      <td><a class="btn btn-danger" href="/gauging/delete/{{id}}/{{page}}/{{total}}">Excluir</a></td>
+    </tr>
+   </tbody>
+   {{else}}
+{{/each}}
+</table>
+</div>
+<br>
+	{{#if prev}}
+	<a href="/gauging/list/?page={{prev}}" class=" btn btn-primary ml-2"> Anterior</a>
+	{{else}}
+	{{/if}}
+	{{#if next}}
+	<a href="/gauging/list/?page={{prox}}" class="d-flex btn btn-primary float-right mr-2">Proximo</a>
+	{{else}}
+	{{/if}}
