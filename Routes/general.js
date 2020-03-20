@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const ValidationContract = require("../Helpers/validators");
 require("../Models/Balance");
 const Balance = mongoose.model("balances");
-const { zonedTimeToUtc } = require("date-fns-tz");
+const { toDate, utcToZonedTime } = require("date-fns-tz");
 const pt = require("date-fns/locale/pt");
 require("../Models/Protocol");
 require("../Models/Gauging");
@@ -21,10 +21,15 @@ const {
 } = require("date-fns");
 
 router.get("/", (req, res) => {
-  var utc = new Date().toJSON().slice(0, 10);
-  const firstDate = parseISO(utc);
-  // const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
-  const formattedDate = format(firstDate, "dd'/'MM'/'yyyy'");
+  var utc = new Date().toJSON().slice(0, 16);
+
+  const utcDate = toDate(utc, { timeZone: "UTC" });
+  const zonedDate = utcToZonedTime(utcDate, "America/Sao_Paulo");
+  console.log(utc);
+  console.log(zonedDate);
+  const formattedDate = format(zonedDate, "dd-MM-yyyy HH:mm", {
+    timeZone: "America/Sao_Paulo"
+  });
   Gauging.find({ date: utc }).then(status => {
     var statusBalA = false;
     var statusBalM = false;

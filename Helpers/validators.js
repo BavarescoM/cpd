@@ -13,6 +13,10 @@ ValidationContract.prototype.isUserRequired = (value, message) => {
   if (value == 0) errors.push({ message: message });
 };
 
+ValidationContract.prototype.isRequired = (value, message) => {
+  if (!value || value.length <= 0) errors.push({ message: message });
+};
+
 ValidationContract.prototype.isBalEmpty = (value, message) => {
   let count = 0;
   if (value.bal10 == undefined) {

@@ -1,22 +1,30 @@
 const express = require("express");
 const router = express.Router();
+const ValidationContract = require("../Helpers/validators");
 
 router.get("/login", (req, res) => {
   res.render("admin/login/index");
 });
 
 router.post("/login/save", (req, res) => {
-  console.log(req.body.login);
-  console.log(req.body.password);
-  if (req.body.login == "cpd203" && req.body.password == "123") {
-    req.session.user = {
-      user: req.body.login
-    };
-    req.flash("success_msg", "bombou");
-    res.redirect("/login");
+  let contract = new ValidationContract();
+  contract.isRequired(req.body.login, "Campo Login é Obrigatório");
+  contract.isRequired(req.body.password, "Campo Senha é Obrigatório");
+  if (!contract.isValid()) {
+    var error = contract.errors();
+    res.render("admin/login/index", { error });
+    return;
   } else {
-    req.flash("error_msg", "Tente Novamente");
-    res.redirect("/login");
+    if (req.body.login == "cpd203" && req.body.password == "123") {
+      req.session.user = {
+        user: req.body.login
+      };
+      req.flash("success_msg", "Bem Vindo ao Sismado do CPD203");
+      res.redirect("/");
+    } else {
+      req.flash("error_msg", "Tente Novamente");
+      res.redirect("/login");
+    }
   }
 });
 
