@@ -2,22 +2,22 @@
 {{#each error}}
 <div class="alert alert-danger">{{message}}</div>
 {{else}}
-
 {{/each}}
 <form action="/bal/create" method="POST">
-    {{#each arrDataParsed}}
-    <div class="card mt-2">
-        <div class="card-header">Publicação:{{date}} Por: {{user}}</div>
-        <div class="card-body">{{{body}}}</div>
-        <div class="card-footer">
-            <a href="/protocols/edit/{{id}}" class="btn btn-warning w-25">Editar</a> 
-            <a href="/protocols/delete/{{id}}/{{page}}/{{total}}" class="btn btn-danger w-25">Excluir</a> 
-        </div>
-    </div>
-    {{else}}
-    {{/each}}
+	{{#each arrDataParsed}}
+	<div class="card mt-2 bg-dark text-light">
+		<div class="card-header">Publicação:{{date}} Por: {{user}}</div>		
+		<div class="card-body">		
+			
+			{{{body}}}
+			<a href="/protocols/edit/{{id}}" class="btn btn-warning w-25">Editar</a> 
+		<a href="/protocols/delete/{{id}}/{{page}}/{{total}}" class="btn btn-danger w-25">Excluir</a> 
+		</div>	
+		
+	</div>
 </form>
-
+	{{else}}
+	{{/each}}
 {{#if prev}}
 	<a href="/protocols/list/?page={{prev}}" class=" btn btn-primary ml-2 mt-2 mb-2"> Anterior</a>
 	{{else}}

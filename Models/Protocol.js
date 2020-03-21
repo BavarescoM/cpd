@@ -15,6 +15,7 @@ const Protocol = new Schema({
     type: Date,
     default: Date.now()
   }
-});
+}, { timestamps: true }
+);
 Protocol.plugin(mongoosePaginate)
 module.exports = mongoose.model("protocols", Protocol);

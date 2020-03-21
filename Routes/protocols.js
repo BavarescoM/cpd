@@ -10,49 +10,51 @@ const {
   formatRelative,
   formatDistance
 } = require("date-fns");
+const ValidationContract = require("../Helpers/validators");
+const commandRepo = require('../Repositories/command-Repositorie');
 
 router.get("/protocols/create", (req, res) => {
   res.render("general/protocol/create");
 });
 
 router.post("/protocols/save", (req, res) => {
-  console.log(req.body.user);
   const newProtocol = {
     user: req.body.user,
     body: req.body.body
   };
+
+  let contract = new ValidationContract();
+  contract.isUserRequired(req.body.user,"Selecione um Operador!");
+  contract.isUserRequired(req.body.body,"Escreva algo");
+  if (!contract.isValid()) {
+    var error = contract.errors();
+    res.render("general/protocol/create", { error});
+    return;
+  } else {
   new Protocol(newProtocol)
     .save()
     .then(() => {
       req.flash("success_msg", "Lembrete adiconado com Sucesso");
-      res.redirect("/protocols/create");
+      res.redirect("/");
     })
     .catch(error => {
       req.flash("error_msg", "Erro ao salvar Lembrete" + error);
     });
+  }
 });
 
 router.get("/protocols/list", (req, res) => {
   const { page = 1 } = req.query;
   Protocol.paginate({}, { page, limit: 4, sort: { date: -1 } })
     .then(protocol => {
-      var prox = parseInt(req.query.page) + 1;
-      if (req.query.page == undefined) {
-        prox = 2;
-      }
-      var next;
-      if (parseInt(req.query.page) != parseInt(protocol.pages)) {
-        next = true;
-      } else {
-        next = false;
-      }
-      var prev;
-      prev = parseInt(req.query.page) - 1;
+      
+      var prox = commandRepo.prox(req.query.page);
+      var next = commandRepo.next(protocol.total,req.query.page,protocol.pages);
+      var prev = parseInt(req.query.page) - 1;
       var arrDataParsed = [];
       var DateP = protocol.docs.map(function(datep) {
         var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
-        const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
-        var dat = format(znDate, "dd'/'MM'/'yyyy'");
+        var dat = format(firstDate, "dd'/'MM'/'yyyy'");
 
         arrDataParsed.push({
           page: protocol.page,

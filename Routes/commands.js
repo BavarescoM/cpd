@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("../Models/Command");
 const Command = mongoose.model("commands");
 const adminAuth = require("../middlewares/adminAuth");
+const ValidationContract = require("../Helpers/validators");
 
 router.get("/admin/commands/create", adminAuth, (req, res) => {
   res.render("admin/commands/create");
@@ -14,16 +15,24 @@ router.post("/admin/commands/save", adminAuth, (req, res) => {
     title: req.body.title,
     body: req.body.body
   };
-
+  let contract = new ValidationContract();
+  contract.isRequired(req.body.title, "Título é Obrigatório");
+  contract.isRequired(req.body.body, "Conteudo é Obrigatório");
+  if (!contract.isValid()) {
+    var error = contract.errors();
+    res.render("admin/commands/create", { error });
+    return;
+  } else {
   new Command(newCommand)
     .save()
     .then(() => {
       req.flash("success_msg", "Comando criado com Sucesso!");
-      res.redirect("/admin/commands/create");
+      res.redirect("/admin/commands/list");
     })
     .catch(error => {
       req.flash("error_msg", "Erro ao salvar Comando" + error);
     });
+  }
 });
 
 router.get("/admin/commands/index", adminAuth, (req, res) => {
@@ -39,24 +48,33 @@ router.get("/admin/commands/edit/:id", adminAuth, (req, res) => {
   });
 });
 
-router.post("/admin/commands/edit", adminAuth, (req, res) => {
+router.post("/admin/commands/edit",  (req, res) => {
   var id = req.body.id;
   console.log(id);
+  let contract = new ValidationContract();
+  contract.isRequired(req.body.title, "Título é Obrigatório");
+  contract.isRequired(req.body.body, "Conteudo é Obrigatório");
+  if (!contract.isValid()) {
+    var error = contract.errors();
+    req.flash("error_form", error);
+    res.redirect(`/admin/commands/edit/${req.body.id}`);
+    return;
+  } else {
   Command.findById({ _id: id }).then(commands => {
-    console.log(commands);
-    console.log(req.body.title);
-
     (commands.title = req.body.title), (commands.body = req.body.body);
     commands
       .save()
       .then(() => {
+        req.flash("success_msg", "Comando editado com Sucesso!");
         res.redirect("/admin/commands/index");
-        console.log("comando atualizado" + commands);
+        
       })
       .catch(error => {
+        req.flash("error_msg", "Erro ao editar!");
         console.log("erro ao salvar");
       });
   });
+  } 
 });
 
 router.get("/admin/commands/delete/:id", adminAuth, (req, res) => {

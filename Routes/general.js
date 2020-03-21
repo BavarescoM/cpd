@@ -19,52 +19,27 @@ const {
   formatRelative,
   formatDistance
 } = require("date-fns");
+const commandRepo = require('../Repositories/command-Repositorie');
 
 router.get("/", (req, res) => {
-  var utc = new Date().toJSON().slice(0, 16);
-  /*
-  const utcDate = toDate(utc, { timeZone: "UTC" });
-  const zonedDate = utcToZonedTime(utcDate, "America/Sao_Paulo");
+  var date = new Date().toJSON().slice(0, 10);
+  var dateTime = new Date().toJSON().slice(0, 16);
+  const formattedDate = commandRepo.homeDate(dateTime);
 
-  const formattedDate = format(zonedDate, "dd-MM-yyyy HH:mm", {
-    timeZone: "America/Sao_Paulo"
-  });
-  
-  const DateFindDb = format(zonedDate, "yyyy-MM-dd HH:mm", {
-    timeZone: "America/Sao_Paulo"
-  }); */
-  const formattedDate = "2020-03-21";
-  Gauging.find({ date: utc }).then(status => {
-    var statusBalA = false;
-    var statusBalM = false;
-    if (status.length == 1) {
-      if (status[0].period == "Tarde") {
-        statusBalA = true;
-      }
-      if (status[0].period == "Manhã") {
-        statusBalM = true;
-      }
-    } else {
-      if (status.length == 0) {
-        statusBalA = false;
-        statusBalM = false;
-      } else {
-        if (status[0].period == "Tarde" || status[1].period == "Tarde") {
-          statusBalA = true;
-        }
-        if (status[0].period == "Manhã" || status[1].period == "Manhã") {
-          statusBalM = true;
-        }
-      }
-    }
+  Gauging.find({ date: date }).then(status => {
+    var statusBalM = commandRepo.statusBal(status,"Manhã");
+    var statusBalA = commandRepo.statusBal(status,"Tarde");
+
     const { page = 1 } = req.query;
-    Protocol.paginate({}, { page, limit: 4, sort: { date: -1 } })
+    Protocol.paginate({}, { page, limit: 4, sort: { createdAt: -1 } })
       .then(protocol => {
         var arrD = [];
         var DateP = protocol.docs.map(function(datep) {
-          var firstDate = parseISO(datep.date.toJSON().slice(0, 16));
-          const znDate = zonedTimeToUtc(firstDate, "America/Sao_Paulo");
-          var dat = format(znDate, "dd'/'MM'/'yyyy'");
+          const utcDate = toDate(datep.date, { timeZone: "UTC" });
+          const zonedDate = utcToZonedTime(utcDate, "America/Sao_Paulo");
+          var dat = format(zonedDate, "dd-MM-yyyy HH:mm", {
+            timeZone: "America/Sao_Paulo"
+          });
           arrD.push({
             dat: dat,
             user: datep.user,
@@ -72,25 +47,10 @@ router.get("/", (req, res) => {
             id: datep._id
           });
         });
-        var prox = parseInt(req.query.page) + 1;
-        if (req.query.page == undefined) {
-          prox = 2;
-        }
-        var next;
-        console.log(protocol.total + "total");
-
-        if (protocol.total <= 4) {
-          next = false;
-        } else {
-          if (parseInt(req.query.page) != parseInt(protocol.pages)) {
-            console.log(req.query.page + protocol.pages);
-            next = true;
-          } else {
-            next = false;
-          }
-        }
-        var prev;
-        prev = parseInt(req.query.page) - 1;
+        console.log(req.query.page);
+        var prox = commandRepo.prox(req.query.page);
+        var next = commandRepo.next(protocol.total,req.query.page,protocol.pages);
+        var prev = parseInt(req.query.page) - 1;
         res.render("general/index", {
           prev,
           prox,
@@ -260,11 +220,11 @@ router.get("/excel/:month?", (req, res) => {
 });
 
 router.get("/pdf", async (req, res) => {
-  var auxpdf = {};
+  var auxpdf = true;
   Balance.find({}).then(bal => {
     var html = fs.readFileSync("./views/general/bal/report.handlebars", "utf8");
     var template = handlebars.compile(html);
-    var parsehtml = template({ bal });
+    var parsehtml = template({ bal,auxpdf });
     console.log(bal);
 
     var options = { orientation: "landscape" };
