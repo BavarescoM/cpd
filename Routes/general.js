@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const ValidationContract = require("../Helpers/validators");
 require("../Models/Balance");
 const Balance = mongoose.model("balances");
-const { toDate, utcToZonedTime } = require("date-fns-tz");
+const { toDate, utcToZonedTime, zonedTimeToUtc } = require("date-fns-tz");
 const pt = require("date-fns/locale/pt");
 require("../Models/Protocol");
 require("../Models/Gauging");
@@ -22,14 +22,18 @@ const {
 
 router.get("/", (req, res) => {
   var utc = new Date().toJSON().slice(0, 16);
-
+  /*
   const utcDate = toDate(utc, { timeZone: "UTC" });
   const zonedDate = utcToZonedTime(utcDate, "America/Sao_Paulo");
-  console.log(utc);
-  console.log(zonedDate);
+
   const formattedDate = format(zonedDate, "dd-MM-yyyy HH:mm", {
     timeZone: "America/Sao_Paulo"
   });
+  
+  const DateFindDb = format(zonedDate, "yyyy-MM-dd HH:mm", {
+    timeZone: "America/Sao_Paulo"
+  }); */
+  const formattedDate = "2020-03-21";
   Gauging.find({ date: utc }).then(status => {
     var statusBalA = false;
     var statusBalM = false;
@@ -73,10 +77,17 @@ router.get("/", (req, res) => {
           prox = 2;
         }
         var next;
-        if (parseInt(req.query.page) != parseInt(protocol.pages)) {
-          next = true;
-        } else {
+        console.log(protocol.total + "total");
+
+        if (protocol.total <= 4) {
           next = false;
+        } else {
+          if (parseInt(req.query.page) != parseInt(protocol.pages)) {
+            console.log(req.query.page + protocol.pages);
+            next = true;
+          } else {
+            next = false;
+          }
         }
         var prev;
         prev = parseInt(req.query.page) - 1;
@@ -91,7 +102,7 @@ router.get("/", (req, res) => {
         });
       })
       .catch(error => {
-        req.flash("error_msg", "Erro ao carregar Ata");
+        req.flash("error_msg", "Erro ao carregar Ata" + error);
         res.redirect("/");
       });
   });
