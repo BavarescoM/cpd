@@ -1,0 +1,37 @@
+<style>
+.table-dark {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.table {
+  color: white;
+}
+  .table-bordered {
+  border: 1px solid #dee2e6;
+}
+.w-100 {
+  width: 100% !important;
+}
+</style>
+
+<table class="table table-bordered table-dark w-100">
+  <thead>
+    <tr>
+      <th scope="col">Data</th>
+      <th scope="col">Usuario</th>
+      <th scope="col">Periodo</th>
+      
+    </tr>
+  </thead>
+  {{#each gauging}}
+  <tbody>
+    <tr>
+      <td>{{date}}</td>
+      <td>{{user}}</td>
+      <td>{{period}}</td>
+    </tr>    
+  </tbody>
+  {{else}}
+  {{/each}}
+</table>

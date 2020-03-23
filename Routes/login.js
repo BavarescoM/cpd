@@ -19,7 +19,7 @@ router.post("/login/save", (req, res) => {
       req.session.user = {
         user: req.body.login
       };
-      req.flash("success_msg", "Bem Vindo ao Sismado do CPD203");
+      req.flash("success_msg", "Bem Vindo ao Sistemado CPD203");
       res.redirect("/");
     } else {
       req.flash("error_msg", "Tente Novamente");

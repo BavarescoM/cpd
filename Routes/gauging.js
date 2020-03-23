@@ -4,12 +4,15 @@ const mongoose = require("mongoose");
 require("../Models/Gauging");
 const Gauging = mongoose.model("gaugings");
 //const adminAuth = require("../middlewares/adminAuth");
+const gaugingpdf = require("../Helpers/gaugingpdf");
 const {
   parseISO,
   format,
   formatRelative,
   formatDistance
 } = require("date-fns");
+var pdf = require("html-pdf");
+var fs = require("fs");
 
 router.get("/gauging/create", (req, res) => {
   res.render("general/gauging/create");
@@ -42,7 +45,7 @@ router.get("/gauging/list", (req, res) => {
     }
     var prev;
     prev = parseInt(req.query.page) - 1;
-    console.log(arrD);
+
     res.render("general/gauging/list", { prev, prox, next, arrD });
   });
 });
@@ -66,6 +69,27 @@ router.get("/gauging/edit/:id", (req, res) => {
   });
 });
 
+router.post("/gauging/find", (req, res) => {
+  var regexp = new RegExp("^" + req.body.month);
+  //console.log(regexp);
+  const { page = 1 } = req.query;
+
+  var gau = Gauging.paginate({ date: regexp }, { page, limit: 8 });
+  console.log(gau);
+  res.render("general/gauging/list");
+});
+
+router.get("/gauging/pdf", async (req, res) => {
+  var html = await gaugingpdf.pdf();
+  pdf.create(html).toFile("./meupdf.pdf", async (err, reso) => {
+    if (err) {
+      console.log("erro");
+    } else {
+      res.download(reso.filename, "mypdf.pdf");
+    }
+  });
+});
+
 router.get("/gauging/delete/:id/:page/:total", (req, res) => {
   const id = req.params.id;
   let page = req.params.page;
@@ -80,8 +104,12 @@ router.get("/gauging/delete/:id/:page/:total", (req, res) => {
       res.redirect(`/gauging/list/?page=${page}`);
     })
     .catch(error => {
+      x;
       req.flash("error_msg", "Houve um erro ao Deletar!");
     });
 });
 
+router.get("/test", (req, res) => {
+  res.render("test");
+});
 module.exports = router;
