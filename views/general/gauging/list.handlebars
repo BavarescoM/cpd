@@ -1,5 +1,5 @@
-
-<div class="container d-flex justify-content-center align-items-center">
+<div class="container">
+<div  class=" d-flex justify-content-center align-items-center">
 <table class="table table-dark">
   <thead>
     <tr>
@@ -11,8 +11,7 @@
   </thead>
   {{#each arrD}}
   <tbody>
-    <tr>
-      
+    <tr>    
       <td>{{date}}</td>
       <td>{{user}}</td>
       <td>{{period}}</td>
@@ -23,7 +22,7 @@
    {{else}}
 {{/each}}
 </table>
-</div>
+  </div>
 <br>
 	{{#if prev}}
 	<a href="/gauging/list/?page={{prev}}" class=" btn btn-primary ml-2"> Anterior</a>
@@ -33,3 +32,4 @@
 	<a href="/gauging/list/?page={{prox}}" class="d-flex btn btn-primary float-right mr-2">Proximo</a>
 	{{else}}
 	{{/if}}
+</div>

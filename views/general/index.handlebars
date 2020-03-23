@@ -1,6 +1,6 @@
 <div class="container">
 <div class="profile-card">
-	<div class="top-section d-flex w-100 ml-2 mr-2 mb-5">
+	<div class="top-section d-flex w-100 ml-2 mr-2">
 		<div class="name">Aferição de Balança Dia:{{formattedDate}}</div>
 		<div class="mt-2">
 			{{#if statusBalM}}
@@ -34,11 +34,11 @@
 	{{/each}}
 	<br>
 	{{#if prev}}
-	<a href="/?page={{prev}}" class=" btn btn-primary ml-2"> Anterior</a>
+	<a href="/?page={{prev}}" class=" btn btn-primary ml-2 mb-3"> Anterior</a>
 	{{else}}
 	{{/if}}
 	{{#if next}}
-	<a href="/?page={{prox}}" class="d-flex btn btn-primary float-right mr-2">Proximo</a>
+	<a href="/?page={{prox}}" class="d-flex btn btn-primary float-right mb-3 mr-2">Proximo</a>
 	{{else}}
 	{{/if}}
 </div>

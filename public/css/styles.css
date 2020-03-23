@@ -14,7 +14,7 @@ body {
 .profile-card {
   overflow: hidden;
   position: relative;
-  box-shadow: 0 0 10px #00000070;
+
   display: flex;
 }
 .top-section {

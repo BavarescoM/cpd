@@ -10,9 +10,6 @@ const Balance = new Schema({
     type: String,
     required: true
   },
-  period: {
-    type: String
-  },
   bal10: {
     type: String
   },
