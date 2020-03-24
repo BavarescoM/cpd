@@ -123,6 +123,7 @@ router.get("/bal/report", (req, res) => {
   var utc = new Date().toJSON().slice(0, 7);
   var regexp = new RegExp("^" + utc);
   var auxmonth = 0;
+  
   Balance.find({ date: regexp })
     .sort({ date: -1 })
     .then(bal => {
@@ -341,8 +342,6 @@ router.post("/report/month", (req, res) => {
     remonth[1] +
     remonth[2] +
     remonth[3];
-
-  console.log(month);
 
   Balance.find({ date: regexp })
     .then(bal => {

@@ -79,16 +79,7 @@ router.post("/gauging/find", (req, res) => {
   res.render("general/gauging/list");
 });
 
-router.get("/gauging/pdf", async (req, res) => {
-  var html = await gaugingpdf.pdf();
-  pdf.create(html).toFile("./meupdf.pdf", async (err, reso) => {
-    if (err) {
-      console.log("erro");
-    } else {
-      res.download(reso.filename, "mypdf.pdf");
-    }
-  });
-});
+
 
 router.get("/gauging/delete/:id/:page/:total", (req, res) => {
   const id = req.params.id;

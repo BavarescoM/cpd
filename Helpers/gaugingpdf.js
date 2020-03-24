@@ -4,9 +4,11 @@ const Gauging = mongoose.model("gaugings");
 
 const handlebars = require("handlebars");
 
-exports.pdf = async () => {
+exports.pdf = async (month,auxperiod) => {
+  var auxperiod = auxperiod.split("-");
+  var peri = auxperiod[1]+'/'+auxperiod[0];
   let html = `
-  <h2>Aferição de Balança Periodo: </h2>
+  <h2>Aferição de Balança Periodo: {{peri}} </h2>
   <table>
   <thead>
     <tr>
@@ -40,7 +42,7 @@ td{
 </style>
   
   `;
-  const listGaugind = await Gauging.find();
+  const listGaugind = await Gauging.find({date:month}).sort({date:'asc'});
   gauging = [];
   var map = listGaugind.map(obj => {
     var newDate = obj.date.split("-");
@@ -52,6 +54,6 @@ td{
   });
 
   var template = handlebars.compile(html);
-  var parsehtml = template({ gauging });
+  var parsehtml = template({ gauging, peri });
   return parsehtml;
 };

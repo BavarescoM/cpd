@@ -1,4 +1,16 @@
-<table>
+
+const mongoose = require("mongoose");
+require("../Models/Balance");
+const Balance = mongoose.model("balances");
+
+const handlebars = require("handlebars");
+
+exports.pdf = async (month,auxperiod) => {
+  var auxperiod = auxperiod.split("-");
+  var peri = auxperiod[1]+'/'+auxperiod[0];
+  let html = `
+
+  <table>
   {{#if bal}}
   <thead>
     <tr>
@@ -11,10 +23,11 @@
   {{/if}}
 
   <tbody>
+  	<h2>Limpeza de Balança Periodo: {{peri}} </h2>
     {{#each bal}}
     <tr>
       <td scope="col">
-        <input id="inpdate" class="text-center" type="date" disabled value="{{date}}">
+        {{date}}
       </td>
       <td scope="col">{{user}}</td>
       <td scope="col" {{#if bal10 }}style="background:green" {{else}}{{/if}}>Bal10</td>
@@ -35,6 +48,7 @@
     {{/each}}
 
 </table>
+
 <style>
 table {
   width:100% !important;
@@ -46,3 +60,30 @@ td{
 }
 </style>
   
+  `;
+  const listBalance = await Balance.find({date:month}).sort({date:'asc'});
+  
+  bal = [];
+  var map = listBalance.map(obj => {
+    var newDate = obj.date.split("-");
+    bal.push({
+      date: newDate[2] + "/" + newDate[1] + "/" + newDate[0],
+      user: obj.user,
+      bal10: obj.bal10,
+      bal11: obj.bal11,
+      bal12: obj.bal12,
+      bal13: obj.bal13,
+      bal14: obj.bal14,
+      bal15: obj.bal15,
+      bal16: obj.bal16,
+      bal17: obj.bal17,
+      bal18: obj.bal18,
+      bal19: obj.bal19,
+      bal20: obj.bal20,
+    });
+  });
+
+  var template = handlebars.compile(html);
+  var parsehtml = template({ bal, peri });
+  return parsehtml;
+};

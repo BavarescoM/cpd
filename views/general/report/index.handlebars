@@ -1,0 +1,49 @@
+<div id="cont">
+  <div class="container w-75">
+        <br>
+           <br>         
+      <form action="/admin/report/searchBalance" method="POST">
+        <div class="row d-flex justify-content-between">
+        <label class="form-control w-100 text-center">Relatório de Limpeza selecione o período  </label>
+        <input class="form-control mb-3 w-50 " name="monthb" type="month" min="2020-01">
+        <button class="btn btn-primary w-25"><img id="icon" src="/img/search.svg"></button>
+      <a href="/balance/pdf/{{pdfBmonth}}" class="btn btn-danger "><img id="icon" src="/img/pdf.svg"></a>
+      <a href="/excel/{{auxmonth}}" class="btn btn-success"><img id="icon" src="/img/excel.svg"></a>
+       <label class="form-control w-50 text-center margin-left">Perido Selecionado {{monthB}}</label>
+        </div>
+
+      </form>
+    </div>
+      </div>
+           <br>
+           <br>
+           <br>
+           <br>
+      <div id="cont">
+      <div class="container w-75">
+         <br>
+           <br>     
+      <form action="/admin/report/searchGauging/" method="POST">
+        <div class="row d-flex justify-content-between align-items-center">
+        <label class="form-control w-100 text-center">Relatório de Aferição selecione o período  </label>
+        <input class="form-control mb-3 w-50 " name="monthg" type="month" min="2020-01">
+        <button class="btn btn-primary w-25"><img id="icon" src="/img/search.svg"></button>
+        <a href="/gauging/pdf/{{pdfGmonth}}" class="btn btn-danger "><img id="icon" src="/img/pdf.svg"></a>
+        <a href="/excel/{{auxmonth}}" class="btn btn-success"><img id="icon" src="/img/excel.svg"></a>
+        <label class="form-control w-50 text-center margin-left">Perido Selecionado {{monthG}}</label>
+        </div>
+      </form>
+      </div>
+    </div>
+
+  <style>
+
+    #cont {
+      height: 250px;
+      margin-left: 200px;
+      margin-right: 200px;
+      
+      
+      background: rgb(242, 242, 242);
+    }
+  </style>
