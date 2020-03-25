@@ -5,11 +5,21 @@ const Balance = mongoose.model("balances");
 
 const handlebars = require("handlebars");
 
+
+
 exports.pdf = async (month,auxperiod) => {
   var auxperiod = auxperiod.split("-");
   var peri = auxperiod[1]+'/'+auxperiod[0];
   let html = `
-
+<script>
+Handlebars.registerHelper('if_eq', function(a, b, opts) {
+    if (a == b) {
+        return opts.fn(this);
+    } else {
+        return opts.inverse(this);
+    }
+});
+</script>
   <table>
   {{#if bal}}
   <thead>
@@ -29,6 +39,7 @@ exports.pdf = async (month,auxperiod) => {
       <td scope="col">
         {{date}}
       </td>
+
       <td scope="col">{{user}}</td>
       <td scope="col" {{#if bal10 }}style="background:green" {{else}}{{/if}}>Bal10</td>
       <td scope="col" {{#if bal11 }}style="background:green" {{else}}{{/if}}>Bal11</td>
@@ -49,6 +60,7 @@ exports.pdf = async (month,auxperiod) => {
 
 </table>
 
+
 <style>
 table {
   width:100% !important;
@@ -57,6 +69,7 @@ table {
 }
 td{  
   border: solid 2px black;
+
 }
 </style>
   
@@ -83,6 +96,7 @@ td{
     });
   });
 
+  
   var template = handlebars.compile(html);
   var parsehtml = template({ bal, peri });
   return parsehtml;

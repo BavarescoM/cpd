@@ -1,5 +1,5 @@
 <table>
-  {{#if bal}}
+
   <thead>
     <tr>
       <th>Data</th>
@@ -7,32 +7,45 @@
       <th colspan="11">Balanças</th>
     </tr>
   </thead>
-  {{else}}
-  {{/if}}
+  
 
   <tbody>
-    {{#each bal}}
+    
     <tr>
       <td scope="col">
-        <input id="inpdate" class="text-center" type="date" disabled value="{{date}}">
+        data
       </td>
-      <td scope="col">{{user}}</td>
-      <td scope="col" {{#if bal10 }}style="background:green" {{else}}{{/if}}>Bal10</td>
-      <td scope="col" {{#if bal11 }}style="background:green" {{else}}{{/if}}>Bal11</td>
-      <td scope="col" {{#if bal12 }}style="background:green" {{else}}{{/if}}>Bal12</td>
-      <td scope="col" {{#if bal13 }}style="background:green" {{else}}{{/if}}>Bal13</td>
-      <td scope="col" {{#if bal14 }}style="background:green" {{else}}{{/if}}>Bal14</td>
-      <td scope="col" {{#if bal15 }}style="background:green" {{else}}{{/if}}>Bal15</td>
-      <td scope="col" {{#if bal16 }}style="background:green" {{else}}{{/if}}>Bal16</td>
-      <td scope="col" {{#if bal17 }}style="background:green" {{else}}{{/if}}>Bal17</td>
-      <td scope="col" {{#if bal18 }}style="background:green" {{else}}{{/if}}>Bal18</td>
-      <td scope="col" {{#if bal19 }}style="background:green" {{else}}{{/if}}>Bal19</td>
-      <td scope="col" {{#if bal20 }}style="background:green" {{else}}{{/if}}>Bal20</td>
+      <td scope="col">uder</td>
+      <td scope="col" >Bal11</td>
+      <td scope="col" >Bal12</td>
+      <td scope="col" >Bal13</td>
+      <td scope="col" >Bal10</td>
+      <td scope="col" >Bal14</td>
+      <td scope="col" >Bal15</td>
+      <td scope="col" >Bal16</td>
+      <td scope="col" >Bal17</td>
+      <td scope="col" >Bal18</td>
+      <td scope="col" >Bal19</td>
+      <td scope="col" >Bal20</td>
+    </tr>
+    <tr>
+      <td scope="col">
+        data
+      </td>
+      <td scope="col">uder</td>
+      <td scope="col" >Bal11</td>
+      <td scope="col" >Bal12</td>
+      <td scope="col" >Bal13</td>
+      <td scope="col" >Bal10</td>
+      <td scope="col" >Bal14</td>
+      <td scope="col" >Bal15</td>
+      <td scope="col" >Bal16</td>
+      <td scope="col" >Bal17</td>
+      <td scope="col" >Bal18</td>
+      <td scope="col" >Bal19</td>
+      <td scope="col" >Bal20</td>
     </tr>
   </tbody>
-    {{else}}
-    <div class="btn btn-info btn-block">Nenhum Dado Encontrado</div>
-    {{/each}}
 
 </table>
 <style>
@@ -43,6 +56,8 @@ table {
 }
 td{  
   border: solid 2px black;
+  height:40px;
 }
+
 </style>
   

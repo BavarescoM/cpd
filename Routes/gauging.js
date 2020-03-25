@@ -69,18 +69,6 @@ router.get("/gauging/edit/:id", (req, res) => {
   });
 });
 
-router.post("/gauging/find", (req, res) => {
-  var regexp = new RegExp("^" + req.body.month);
-  //console.log(regexp);
-  const { page = 1 } = req.query;
-
-  var gau = Gauging.paginate({ date: regexp }, { page, limit: 8 });
-  console.log(gau);
-  res.render("general/gauging/list");
-});
-
-
-
 router.get("/gauging/delete/:id/:page/:total", (req, res) => {
   const id = req.params.id;
   let page = req.params.page;

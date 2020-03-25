@@ -1,34 +1,27 @@
 <div class="container">
-{{#each error}}
-<div class="alert alert-danger">{{message}}</div>
-{{else}}
-
-{{/each}}<div class="card">
-    <div class="card-body">
-    <form action="/gauging/save" method="POST">
-    <p >Aferição de Balanças </p>
-    <input class="form-control" type="date" name="date" required value="{{bal.date}}" >
-    <select class="custom-select mt-4" name="user">
-    
-    {{#if error}}<option value="{{bal.user}}">{{bal.user}}</option>{{else}}
-    <option selected value="0">Selecione um Operador</option>
-    {{/if}}
-    <option value="Anderson">Anderson</option>
-    <option value="Daniel">Daniel</option>
-    <option value="Johnny">Johnny</option>
-    <option value="Maurício">Maurício</option>
-    <option value="Ricardo">Ricardo</option>
-    </select>
-    <select class="custom-select mt-4 mb-4" name="period">
-    {{#if error}}<option value="{{bal.period}}">{{bal.period}}</option>{{else}}
-    <option selected value="0">Selecione um Turno</option>
-    {{/if}}
-    <option value="Manhã">Manhã</option>
-    <option value="Tarde">Tarde</option>
-    </select>
-    <a href="/" class="btn btn-info btn-lg col-sm-3">Voltar</a>
-    <button type="submit" class="btn btn-success  btn-lg col-sm-3">Salvar</button>
-    </form>
+    <div class="card bg-dark text-light">
+        <div class="card-body">
+            <form action="/gauging/save" method="POST">
+                <p >Aferição de Balanças </p>
+                <input class="form-control" type="date" name="date" required value="{{bal.date}}" >
+                <select class="custom-select mt-4" name="user">
+                    
+                    <option selected value="0">Selecione um Operador</option>
+                    <option value="Anderson">Anderson</option>
+                    <option value="Daniel">Daniel</option>
+                    <option value="Johnny">Johnny</option>
+                    <option value="Mauricio">Maurício</option>
+                    <option value="Ricardo">Ricardo</option>
+                </select>
+                <select class="custom-select mt-4 mb-4" name="period">
+                    
+                    <option selected value="0">Selecione um Turno</option>
+                    <option value="Manha">Manhã</option>
+                    <option value="Tarde">Tarde</option>
+                </select>
+                <a href="/" class="btn btn-info btn-lg col-sm-3">Voltar</a>
+                <button type="submit" class="btn btn-success  btn-lg col-sm-3">Salvar</button>
+            </form>
+        </div>
     </div>
-</div>
 </div>

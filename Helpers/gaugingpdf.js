@@ -8,7 +8,7 @@ exports.pdf = async (month,auxperiod) => {
   var auxperiod = auxperiod.split("-");
   var peri = auxperiod[1]+'/'+auxperiod[0];
   let html = `
-  <h2>Aferição de Balança Periodo: {{peri}} </h2>
+  <h2>Aferição de Balança Período: {{peri}} </h2>
   <table>
   <thead>
     <tr>

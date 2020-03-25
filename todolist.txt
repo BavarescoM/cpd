@@ -1,5 +1,4 @@
 arrumar crud aferição
 Validar Rotas 
-gerar pdf na aba balança/aferição
-mudar gauging para dark
-tentar fazer download pdf com select sem html
+validar insert e update gauging /bal validators
+
