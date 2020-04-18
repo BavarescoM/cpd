@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@electrivity/mongoose-paginate": "^5.0.4",
     "body-parser": "^1.19.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
@@ -23,7 +22,7 @@
     "handlebars-parser": "^1.0.0",
     "html-pdf": "^2.2.0",
     "mongoose": "^5.9.2",
-    "mongoose-paginate": "git://github.com/zerok78/mongoose-paginate.git#version-5.0.4",
+    "mongoose-paginate": "git+https://github.com/c-carrasco/mongoose-paginate.git",
     "nodemon": "^2.0.2"
   }
 }
