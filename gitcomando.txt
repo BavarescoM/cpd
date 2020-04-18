@@ -19,3 +19,4 @@ voltar arquivo deletado
 git checkout -- [arquivo que quer voltar]
 ----------
 git pull atualiza o local
+2132123132
